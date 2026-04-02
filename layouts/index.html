@@ -1,0 +1,154 @@
+{{- define "main" }}
+
+{{/* ===== HERO SECTION ===== */}}
+<section class="hero-section">
+    <div class="hero-inner">
+        <div class="hero-avatar">
+            <img src="{{ "images/avatar.jpg" | absURL }}" alt="Van Huynh" loading="eager">
+        </div>
+        <div class="hero-text">
+            <h1 class="hero-name">Van Cong Huynh</h1>
+            <p class="hero-title">Senior Full-Stack Engineer</p>
+            <p class="hero-tagline">8+ years building and scaling SaaS platforms. From first commit to VC-funded product — I ship fast and build things that last.</p>
+            <div class="hero-actions">
+                <a href="/about/" class="btn btn-primary">About Me</a>
+                <a href="/resume.pdf" target="_blank" class="btn btn-outline">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                    Resume
+                </a>
+            </div>
+            <div class="hero-social">
+                {{ partial "social_icons.html" (dict "align" "left") }}
+            </div>
+        </div>
+    </div>
+</section>
+
+{{/* ===== HIGHLIGHTS SECTION ===== */}}
+<section class="highlights-section">
+    <div class="highlights-grid">
+        <div class="highlight-card">
+            <span class="highlight-number">8+</span>
+            <span class="highlight-label">Years Experience</span>
+        </div>
+        <div class="highlight-card">
+            <span class="highlight-number">20+</span>
+            <span class="highlight-label">Enterprise Clients</span>
+        </div>
+        <div class="highlight-card">
+            <span class="highlight-number">250K+</span>
+            <span class="highlight-label">Monthly Interactions</span>
+        </div>
+        <div class="highlight-card">
+            <span class="highlight-number">7</span>
+            <span class="highlight-label">Engineers Led</span>
+        </div>
+    </div>
+</section>
+
+{{/* ===== SKILLS SECTION ===== */}}
+<section class="skills-section">
+    <h2 class="section-title">Tech Stack</h2>
+    <div class="skills-grid">
+        <div class="skill-group">
+            <h3>Frontend</h3>
+            <div class="skill-tags">
+                <span>React</span><span>Next.js</span><span>Vue.js</span><span>TypeScript</span><span>Tailwind CSS</span><span>Shadcn/UI</span>
+            </div>
+        </div>
+        <div class="skill-group">
+            <h3>Backend</h3>
+            <div class="skill-tags">
+                <span>Node.js</span><span>Express</span><span>NestJS</span><span>PostgreSQL</span><span>Redis</span><span>BullMQ</span>
+            </div>
+        </div>
+        <div class="skill-group">
+            <h3>AI / ML</h3>
+            <div class="skill-tags">
+                <span>RAG</span><span>OpenAI</span><span>Gemini</span><span>Pinecone</span><span>Prompt Engineering</span>
+            </div>
+        </div>
+        <div class="skill-group">
+            <h3>Infrastructure</h3>
+            <div class="skill-tags">
+                <span>GCP</span><span>Docker</span><span>GitHub Actions</span><span>Vercel</span><span>Nginx</span><span>CI/CD</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+{{/* ===== EXPERIENCE SECTION ===== */}}
+<section class="experience-section">
+    <h2 class="section-title">Experience</h2>
+    <div class="experience-timeline">
+        <div class="experience-item">
+            <div class="experience-period">2023 — 2026</div>
+            <div class="experience-content">
+                <h3>Founding Engineer / Lead Developer</h3>
+                <p class="experience-company">Persona Studios</p>
+                <p>Built an AI-powered SaaS platform from scratch serving 20+ enterprise clients including Antler VC. Architected the "Agenda Engine" — a proprietary state machine ensuring deterministic AI in high-stakes conversations. Led a team of 7.</p>
+            </div>
+        </div>
+        <div class="experience-item">
+            <div class="experience-period">2021 — 2023</div>
+            <div class="experience-content">
+                <h3>Full-Stack Developer</h3>
+                <p class="experience-company">Galaxy Education JSC</p>
+                <p>Built the Ask Tutor CMS platform. Improved Google PageSpeed from 56 to 80+ with Next.js SSR/ISR strategies on a high-traffic education portal.</p>
+            </div>
+        </div>
+        <div class="experience-item">
+            <div class="experience-period">2019 — 2021</div>
+            <div class="experience-content">
+                <h3>Frontend Engineer → Lead Frontend Developer</h3>
+                <p class="experience-company">Prime Commerce Asia</p>
+                <p>Promoted in 1 year to lead a team of 4. Architected a reusable Nuxt.js boilerplate for 3 products across the social commerce ecosystem.</p>
+            </div>
+        </div>
+        <div class="experience-item">
+            <div class="experience-period">2017 — 2019</div>
+            <div class="experience-content">
+                <h3>Full-Stack Developer</h3>
+                <p class="experience-company">FPT Telecom</p>
+                <p>Reduced report generation from 30s to 3-5s. Built nationwide compensation tools processing 500K-1M records monthly.</p>
+            </div>
+        </div>
+    </div>
+    <div style="text-align:center;margin-top:1.5rem;">
+        <a href="/about/" class="btn btn-outline">View Full Profile →</a>
+    </div>
+</section>
+
+{{/* ===== RECENT POSTS SECTION ===== */}}
+<section class="posts-section">
+    <h2 class="section-title">Recent Posts</h2>
+
+    {{- $pages := where site.RegularPages "Type" "in" site.Params.mainSections }}
+    {{- $pages = where $pages "Params.hiddenInHomeList" "!=" "true" }}
+    {{- range first 3 $pages }}
+    <article class="post-entry">
+        {{- $isHidden := (.Param "cover.hiddenInList") | default (.Param "cover.hidden") | default false }}
+        {{- partial "cover.html" (dict "cxt" . "IsSingle" false "isHidden" $isHidden) }}
+        <header class="entry-header">
+            <h2 class="entry-hint-parent">{{- .Title }}</h2>
+        </header>
+        {{- if (ne (.Param "hideSummary") true) }}
+        <div class="entry-content">
+            <p>{{ .Summary | plainify | htmlUnescape }}{{ if .Truncated }}...{{ end }}</p>
+        </div>
+        {{- end }}
+        {{- if not (.Param "hideMeta") }}
+        <footer class="entry-footer">
+            {{- partial "post_meta.html" . -}}
+        </footer>
+        {{- end }}
+        <a class="entry-link" aria-label="post link to {{ .Title | plainify }}" href="{{ .Permalink }}"></a>
+    </article>
+    {{- end }}
+
+    <div style="text-align:center;margin-top:1rem;">
+        <a href="/posts/" class="btn btn-outline">All Posts →</a>
+    </div>
+</section>
+
+{{- end }}{{- /* end main */ -}}

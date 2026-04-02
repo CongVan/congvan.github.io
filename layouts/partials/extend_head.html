@@ -1,29 +1,251 @@
 {{- /* Custom styles */ -}}
 <style>
-/* === Home Hero with Avatar === */
-.home-info .home-info-inner {
+/* === HERO SECTION === */
+.hero-section {
+    padding: 2rem 0 1.5rem;
+    border-bottom: 1px solid var(--tertiary);
+    margin-bottom: 2rem;
+}
+
+.hero-inner {
     display: flex;
     align-items: center;
-    gap: 2rem;
+    gap: 2.5rem;
 }
 
-.home-avatar img {
+.hero-avatar {
+    flex-shrink: 0;
+}
+
+.hero-avatar img {
+    width: 180px;
+    height: 180px;
     border-radius: 50%;
     object-fit: cover;
+    object-position: center 20%;
     border: 3px solid var(--tertiary);
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, border-color 0.3s ease;
 }
 
-.home-avatar img:hover {
-    transform: scale(1.05);
+.hero-avatar img:hover {
+    transform: scale(1.03);
+    border-color: var(--primary);
 }
 
-.home-text {
+.hero-name {
+    font-size: 2rem;
+    margin: 0 0 0.15rem;
+    line-height: 1.2;
+}
+
+.hero-title {
+    font-size: 1.1rem;
+    color: var(--secondary);
+    margin: 0 0 0.75rem;
+    font-weight: 500;
+}
+
+.hero-tagline {
+    font-size: 0.95rem;
+    color: var(--secondary);
+    margin: 0 0 1.25rem;
+    line-height: 1.6;
+    max-width: 520px;
+}
+
+.hero-actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 1.2rem;
+    border-radius: 6px;
+    font-size: 0.88rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: var(--theme);
+    border: 1px solid var(--primary);
+}
+
+.btn-primary:hover {
+    opacity: 0.85;
+}
+
+.btn-outline {
+    background: transparent;
+    color: var(--primary);
+    border: 1px solid var(--tertiary);
+}
+
+.btn-outline:hover {
+    border-color: var(--primary);
+}
+
+.hero-social .social-icons {
+    justify-content: flex-start;
+}
+
+.hero-social .social-icons a {
+    margin: 0 0.5rem 0 0;
+}
+
+/* === HIGHLIGHTS SECTION === */
+.highlights-section {
+    padding: 1.5rem 0;
+    border-bottom: 1px solid var(--tertiary);
+    margin-bottom: 2rem;
+}
+
+.highlights-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    text-align: center;
+}
+
+.highlight-card {
+    padding: 1rem 0.5rem;
+}
+
+.highlight-number {
+    display: block;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--primary);
+    line-height: 1.2;
+}
+
+.highlight-label {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--secondary);
+    margin-top: 0.25rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* === SKILLS SECTION === */
+.skills-section {
+    padding: 1.5rem 0;
+    border-bottom: 1px solid var(--tertiary);
+    margin-bottom: 2rem;
+}
+
+.section-title {
+    font-size: 1.3rem;
+    margin-bottom: 1.25rem;
+    font-weight: 600;
+}
+
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+}
+
+.skill-group h3 {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--secondary);
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+}
+
+.skill-tags span {
+    display: inline-block;
+    padding: 0.25rem 0.65rem;
+    background: var(--code-bg);
+    border-radius: 4px;
+    font-size: 0.8rem;
+    color: var(--primary);
+    transition: background 0.2s ease;
+}
+
+.skill-tags span:hover {
+    background: var(--tertiary);
+}
+
+/* === EXPERIENCE SECTION === */
+.experience-section {
+    padding: 1.5rem 0;
+    border-bottom: 1px solid var(--tertiary);
+    margin-bottom: 2rem;
+}
+
+.experience-timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.experience-item {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.experience-period {
+    flex-shrink: 0;
+    width: 110px;
+    font-size: 0.82rem;
+    color: var(--secondary);
+    padding-top: 0.15rem;
+    font-variant-numeric: tabular-nums;
+}
+
+.experience-content {
     flex: 1;
+    min-width: 0;
 }
 
-.home-info .entry-header h1 {
-    margin-top: 0;
+.experience-content h3 {
+    font-size: 1rem;
+    margin: 0 0 0.15rem;
+    font-weight: 600;
+}
+
+.experience-company {
+    font-size: 0.9rem;
+    color: var(--secondary);
+    margin: 0 0 0.5rem;
+    font-weight: 500;
+}
+
+.experience-content p:last-child {
+    font-size: 0.88rem;
+    color: var(--secondary);
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* === POSTS SECTION === */
+.posts-section {
+    padding: 1.5rem 0 0;
+}
+
+.post-entry {
+    transition: transform 0.2s ease;
+}
+
+.post-entry:hover {
+    transform: translateX(4px);
 }
 
 /* === Footer Contact === */
@@ -73,30 +295,67 @@
     vertical-align: middle;
 }
 
-/* === Post Entry Hover Effect === */
-.post-entry {
-    transition: transform 0.2s ease;
-}
-
-.post-entry:hover {
-    transform: translateX(4px);
-}
-
-/* === Responsive === */
-@media (max-width: 600px) {
-    .home-info .home-info-inner {
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+    .hero-inner {
         flex-direction: column;
         text-align: center;
+        gap: 1.5rem;
     }
 
-    .home-info .entry-footer {
+    .hero-avatar img {
+        width: 140px;
+        height: 140px;
+    }
+
+    .hero-tagline {
+        max-width: 100%;
+    }
+
+    .hero-actions {
         justify-content: center;
+    }
+
+    .hero-social .social-icons {
+        justify-content: center;
+    }
+
+    .highlights-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .skills-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .experience-item {
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+
+    .experience-period {
+        width: auto;
     }
 
     .footer-contact-links {
         flex-direction: column;
         align-items: center;
         gap: 0.75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-name {
+        font-size: 1.6rem;
+    }
+
+    .highlights-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.5rem;
+    }
+
+    .highlight-number {
+        font-size: 1.4rem;
     }
 }
 </style>
