@@ -1,3 +1,119 @@
-baseURL = 'https://example.org/'
-locale = 'en-us'
-title = 'My New Hugo Project'
+baseURL = "https://congvan.github.io/"
+languageCode = "en-us"
+title = "Van Huynh's Blog"
+theme = "PaperMod"
+paginate = 10
+
+buildDrafts = false
+buildFuture = false
+buildExpired = false
+enableEmoji = true
+enableRobotsTXT = true
+
+[minify]
+  disableXML = true
+  minifyOutput = true
+
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+
+[params]
+  env = "production"
+  title = "Van Huynh's Blog"
+  description = "Software engineer writing about TypeScript, Python, Go, and web development"
+  keywords = ["blog", "software engineering", "typescript", "python", "go", "web development"]
+  author = "Van Huynh"
+  DateFormat = "January 2, 2006"
+  defaultTheme = "auto"
+  disableThemeToggle = false
+  ShowReadingTime = true
+  ShowShareButtons = true
+  ShowPostNavLinks = true
+  ShowBreadCrumbs = true
+  ShowCodeCopyButtons = true
+  ShowWordCount = false
+  ShowRssButtonInSectionTermList = true
+  UseHugoToc = true
+  disableSpecial1stPost = false
+  disableScrollToTop = false
+  hidemeta = false
+  hideSummary = false
+  showtoc = true
+  tocopen = false
+
+  [params.homeInfoParams]
+    Title = "Hi, I'm Van Huynh"
+    Content = "Software engineer passionate about TypeScript, Python, Go, and building great developer experiences. Welcome to my corner of the internet."
+
+  [[params.socialIcons]]
+    name = "github"
+    url = "https://github.com/CongVan"
+
+  [[params.socialIcons]]
+    name = "linkedin"
+    url = "https://linkedin.com/in/congvan"
+
+  [[params.socialIcons]]
+    name = "email"
+    url = "mailto:your-email@example.com"
+
+  [[params.socialIcons]]
+    name = "rss"
+    url = "/index.xml"
+
+  [params.fuseOpts]
+    isCaseSensitive = false
+    shouldSort = true
+    location = 0
+    distance = 1000
+    threshold = 0.4
+    minMatchCharLength = 0
+    keys = ["title", "permalink", "summary", "content"]
+
+  [params.editPost]
+    URL = "https://github.com/CongVan/congvan.github.io/tree/main/content"
+    Text = "Suggest Changes"
+    appendFilePath = true
+
+[[menu.main]]
+  identifier = "posts"
+  name = "Posts"
+  url = "/posts/"
+  weight = 10
+
+[[menu.main]]
+  identifier = "projects"
+  name = "Projects"
+  url = "/projects/"
+  weight = 20
+
+[[menu.main]]
+  identifier = "about"
+  name = "About"
+  url = "/about/"
+  weight = 30
+
+[[menu.main]]
+  identifier = "search"
+  name = "Search"
+  url = "/search/"
+  weight = 40
+
+[[menu.main]]
+  identifier = "tags"
+  name = "Tags"
+  url = "/tags/"
+  weight = 50
+
+[markup]
+  [markup.highlight]
+    anchorLineNos = false
+    codeFences = true
+    guessSyntax = true
+    lineNos = false
+    noClasses = false
+    style = "monokai"
+
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
