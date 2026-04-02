@@ -1,6 +1,6 @@
 baseURL = "https://congvan.github.io/"
 languageCode = "en-us"
-title = "Van Huynh's Blog"
+title = "Van Huynh"
 theme = "PaperMod"
 paginate = 10
 
@@ -19,15 +19,15 @@ enableRobotsTXT = true
 
 [params]
   env = "production"
-  title = "Van Huynh's Blog"
-  description = "Software engineer writing about TypeScript, Python, Go, and web development"
-  keywords = ["blog", "software engineering", "typescript", "python", "go", "web development"]
+  title = "Van Huynh"
+  description = "Senior Full-Stack Engineer. Building and scaling SaaS platforms with React, Node.js, Go, and AI."
+  keywords = ["blog", "software engineering", "typescript", "python", "go", "fullstack", "ai", "devops"]
   author = "Van Huynh"
   DateFormat = "January 2, 2006"
   defaultTheme = "auto"
   disableThemeToggle = false
   ShowReadingTime = true
-  ShowShareButtons = true
+  ShowShareButtons = false
   ShowPostNavLinks = true
   ShowBreadCrumbs = true
   ShowCodeCopyButtons = true
@@ -43,7 +43,11 @@ enableRobotsTXT = true
 
   [params.homeInfoParams]
     Title = "Hi, I'm Van Huynh"
-    Content = "Software engineer passionate about TypeScript, Python, Go, and building great developer experiences. Welcome to my corner of the internet."
+    Content = "Senior Full-Stack Engineer with 8+ years of experience building and scaling SaaS platforms. From first commit to VC-funded product — I ship fast and build things that last."
+    imageUrl = "images/avatar.jpg"
+    imageTitle = "Van Huynh"
+    imageWidth = 140
+    imageHeight = 140
 
   [[params.socialIcons]]
     name = "github"
@@ -51,11 +55,11 @@ enableRobotsTXT = true
 
   [[params.socialIcons]]
     name = "linkedin"
-    url = "https://linkedin.com/in/congvan"
+    url = "https://linkedin.com/in/vanconghuynh"
 
   [[params.socialIcons]]
     name = "email"
-    url = "mailto:your-email@example.com"
+    url = "mailto:congvan203@gmail.com"
 
   [[params.socialIcons]]
     name = "rss"
@@ -75,6 +79,13 @@ enableRobotsTXT = true
     Text = "Suggest Changes"
     appendFilePath = true
 
+  # Contact info for footer
+  [params.contact]
+    email = "congvan203@gmail.com"
+    linkedin = "https://linkedin.com/in/vanconghuynh"
+    github = "https://github.com/CongVan"
+    location = "Ho Chi Minh City, Vietnam"
+
 [[menu.main]]
   identifier = "posts"
   name = "Posts"
@@ -82,9 +93,9 @@ enableRobotsTXT = true
   weight = 10
 
 [[menu.main]]
-  identifier = "projects"
-  name = "Projects"
-  url = "/projects/"
+  identifier = "tags"
+  name = "Tags"
+  url = "/tags/"
   weight = 20
 
 [[menu.main]]
@@ -95,15 +106,9 @@ enableRobotsTXT = true
 
 [[menu.main]]
   identifier = "search"
-  name = "Search"
+  name = ""
   url = "/search/"
   weight = 40
-
-[[menu.main]]
-  identifier = "tags"
-  name = "Tags"
-  url = "/tags/"
-  weight = 50
 
 [markup]
   [markup.highlight]

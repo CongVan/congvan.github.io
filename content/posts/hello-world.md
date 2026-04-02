@@ -2,7 +2,7 @@
 title: "Hello World: Why I Started This Blog"
 date: 2026-04-02T00:00:00+07:00
 draft: false
-tags: ["meta", "blogging"]
+tags: ["Backend", "Frontend", "DevOps"]
 categories: ["General"]
 summary: "The first post on my new blog -- why I decided to start writing and what you can expect."
 ShowToc: false
