@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 320" fill="none">
+  <style>
+    text { font-family: 'Fira Mono', monospace; }
+    @media (prefers-color-scheme: dark) {
+      .bg { fill: #1d1e20; }
+      .box { fill: #2e2e33; stroke: #414244; }
+      .box-hl { fill: #1e293b; stroke: #60a5fa; }
+      .box-green { fill: #1a2e1a; stroke: #4ade80; }
+      .text-primary { fill: #dadadb; }
+      .text-secondary { fill: #9b9c9d; }
+      .text-blue { fill: #60a5fa; }
+      .text-green { fill: #4ade80; }
+      .arrow { stroke: #9b9c9d; fill: #9b9c9d; }
+      .divider { stroke: #414244; }
+    }
+    @media (prefers-color-scheme: light) {
+      .bg { fill: #f5f5f5; }
+      .box { fill: #ffffff; stroke: #e0e0e0; }
+      .box-hl { fill: #eff6ff; stroke: #2563eb; }
+      .box-green { fill: #f0fdf4; stroke: #16a34a; }
+      .text-primary { fill: #1a1a1a; }
+      .text-secondary { fill: #6b7280; }
+      .text-blue { fill: #2563eb; }
+      .text-green { fill: #16a34a; }
+      .arrow { stroke: #9ca3af; fill: #9ca3af; }
+      .divider { stroke: #e0e0e0; }
+    }
+  </style>
+  <rect class="bg" width="800" height="320" rx="8"/>
+  <text x="400" y="28" text-anchor="middle" class="text-primary" font-size="14" font-weight="600">RAG Pipeline: From Documents to Answers</text>
+
+  <!-- Row 1: Ingestion -->
+  <text x="40" y="60" class="text-blue" font-size="11" font-weight="600">INGESTION (async)</text>
+  <rect class="box" x="40" y="70" width="120" height="55" rx="5" stroke-width="1.5"/>
+  <text x="100" y="92" text-anchor="middle" class="text-primary" font-size="10" font-weight="500">Upload</text>
+  <text x="100" y="108" text-anchor="middle" class="text-secondary" font-size="9">PDF, Docs, CSV</text>
+
+  <line x1="160" y1="97" x2="190" y2="97" class="arrow" stroke-width="1.5"/>
+  <polygon points="188,93 195,97 188,101" class="arrow"/>
+
+  <rect class="box" x="195" y="70" width="120" height="55" rx="5" stroke-width="1.5"/>
+  <text x="255" y="92" text-anchor="middle" class="text-primary" font-size="10" font-weight="500">Document Queue</text>
+  <text x="255" y="108" text-anchor="middle" class="text-secondary" font-size="9">BullMQ async job</text>
+
+  <line x1="315" y1="97" x2="345" y2="97" class="arrow" stroke-width="1.5"/>
+  <polygon points="343,93 350,97 343,101" class="arrow"/>
+
+  <rect class="box" x="350" y="70" width="120" height="55" rx="5" stroke-width="1.5"/>
+  <text x="410" y="92" text-anchor="middle" class="text-primary" font-size="10" font-weight="500">Chunk + Split</text>
+  <text x="410" y="108" text-anchor="middle" class="text-secondary" font-size="9">Paragraphs, sections</text>
+
+  <line x1="470" y1="97" x2="500" y2="97" class="arrow" stroke-width="1.5"/>
+  <polygon points="498,93 505,97 498,101" class="arrow"/>
+
+  <rect class="box" x="505" y="70" width="120" height="55" rx="5" stroke-width="1.5"/>
+  <text x="565" y="92" text-anchor="middle" class="text-primary" font-size="10" font-weight="500">Embedding Queue</text>
+  <text x="565" y="108" text-anchor="middle" class="text-secondary" font-size="9">OpenAI embeddings</text>
+
+  <line x1="625" y1="97" x2="655" y2="97" class="arrow" stroke-width="1.5"/>
+  <polygon points="653,93 660,97 653,101" class="arrow"/>
+
+  <rect class="box-hl" x="660" y="70" width="120" height="55" rx="5" stroke-width="2"/>
+  <text x="720" y="92" text-anchor="middle" class="text-primary" font-size="10" font-weight="500">Vector DB</text>
+  <text x="720" y="108" text-anchor="middle" class="text-blue" font-size="9">Pinecone</text>
+
+  <!-- Divider -->
+  <line x1="40" y1="145" x2="780" y2="145" class="divider" stroke-width="1" stroke-dasharray="4,4"/>
+
+  <!-- Row 2: Retrieval -->
+  <text x="40" y="170" class="text-green" font-size="11" font-weight="600">RETRIEVAL (per message)</text>
+
+  <rect class="box" x="40" y="180" width="130" height="55" rx="5" stroke-width="1.5"/>
+  <text x="105" y="202" text-anchor="middle" class="text-primary" font-size="10" font-weight="500">User Question</text>
+  <text x="105" y="218" text-anchor="middle" class="text-secondary" font-size="9">"What's your pricing?"</text>
+
+  <line x1="170" y1="207" x2="200" y2="207" class="arrow" stroke-width="1.5"/>
+  <polygon points="198,203 205,207 198,211" class="arrow"/>
+
+  <rect class="box" x="205" y="180" width="130" height="55" rx="5" stroke-width="1.5"/>
+  <text x="270" y="202" text-anchor="middle" class="text-primary" font-size="10" font-weight="500">Query Rewrite</text>
+  <text x="270" y="218" text-anchor="middle" class="text-secondary" font-size="9">Optimize for search</text>
+
+  <line x1="335" y1="207" x2="365" y2="207" class="arrow" stroke-width="1.5"/>
+  <polygon points="363,203 370,207 363,211" class="arrow"/>
+
+  <rect class="box-hl" x="370" y="180" width="130" height="55" rx="5" stroke-width="2"/>
+  <text x="435" y="202" text-anchor="middle" class="text-primary" font-size="10" font-weight="500">Semantic Search</text>
+  <text x="435" y="218" text-anchor="middle" class="text-blue" font-size="9">Vector similarity</text>
+
+  <line x1="500" y1="207" x2="530" y2="207" class="arrow" stroke-width="1.5"/>
+  <polygon points="528,203 535,207 528,211" class="arrow"/>
+
+  <rect class="box" x="535" y="180" width="110" height="55" rx="5" stroke-width="1.5"/>
+  <text x="590" y="202" text-anchor="middle" class="text-primary" font-size="10" font-weight="500">Rank + Filter</text>
+  <text x="590" y="218" text-anchor="middle" class="text-secondary" font-size="9">Scope, language</text>
+
+  <line x1="645" y1="207" x2="665" y2="207" class="arrow" stroke-width="1.5"/>
+  <polygon points="663,203 670,207 663,211" class="arrow"/>
+
+  <rect class="box-green" x="670" y="180" width="110" height="55" rx="5" stroke-width="2"/>
+  <text x="725" y="202" text-anchor="middle" class="text-primary" font-size="10" font-weight="500">LLM + Context</text>
+  <text x="725" y="218" text-anchor="middle" class="text-green" font-size="9">Generate answer</text>
+
+  <!-- Bottom note -->
+  <text x="400" y="270" text-anchor="middle" class="text-secondary" font-size="10">Documents scoped per agent: some sources only available in specific agendas or channels</text>
+  <text x="400" y="288" text-anchor="middle" class="text-secondary" font-size="10">Auto-sync: webpages and live sources re-embed on schedule</text>
+</svg>
