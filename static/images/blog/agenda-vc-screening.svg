@@ -1,0 +1,104 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" fill="none">
+  <style>
+    text { font-family: 'Fira Mono', monospace; }
+    @media (prefers-color-scheme: dark) {
+      .bg { fill: #1d1e20; }
+      .convey { fill: #1e293b; stroke: #60a5fa; }
+      .gather { fill: #1a2e1a; stroke: #4ade80; }
+      .debate { fill: #2d1b3d; stroke: #c084fc; }
+      .qa { fill: #2e2517; stroke: #f59e0b; }
+      .text-primary { fill: #dadadb; }
+      .text-secondary { fill: #9b9c9d; }
+      .text-convey { fill: #60a5fa; }
+      .text-gather { fill: #4ade80; }
+      .text-debate { fill: #c084fc; }
+      .text-qa { fill: #f59e0b; }
+      .arrow { stroke: #9b9c9d; }
+      .connector { stroke: #414244; }
+    }
+    @media (prefers-color-scheme: light) {
+      .bg { fill: #f5f5f5; }
+      .convey { fill: #eff6ff; stroke: #2563eb; }
+      .gather { fill: #f0fdf4; stroke: #16a34a; }
+      .debate { fill: #faf5ff; stroke: #9333ea; }
+      .qa { fill: #fffbeb; stroke: #d97706; }
+      .text-primary { fill: #1a1a1a; }
+      .text-secondary { fill: #6b7280; }
+      .text-convey { fill: #2563eb; }
+      .text-gather { fill: #16a34a; }
+      .text-debate { fill: #9333ea; }
+      .text-qa { fill: #d97706; }
+      .arrow { stroke: #9ca3af; }
+      .connector { stroke: #d1d5db; }
+    }
+  </style>
+  <rect class="bg" width="800" height="400" rx="8"/>
+
+  <text x="400" y="30" text-anchor="middle" class="text-primary" font-size="15" font-weight="600">Example: VC Founder Screening Agenda</text>
+
+  <!-- Item 1: Convey -->
+  <rect class="convey" x="30" y="55" width="230" height="75" rx="6" stroke-width="2"/>
+  <text x="40" y="73" class="text-convey" font-size="10" font-weight="600">CONVEY</text>
+  <text x="145" y="95" text-anchor="middle" class="text-primary" font-size="11" font-weight="500">Welcome Message</text>
+  <text x="145" y="115" text-anchor="middle" class="text-secondary" font-size="9">"Thanks for applying to Antler..."</text>
+
+  <!-- Arrow -->
+  <line x1="260" y1="92" x2="285" y2="92" class="arrow" stroke-width="1.5"/>
+  <polygon points="283,88 290,92 283,96" class="arrow" fill="currentColor" style="fill: inherit; stroke: none;"/>
+
+  <!-- Item 2: Gather -->
+  <rect class="gather" x="290" y="55" width="230" height="75" rx="6" stroke-width="2"/>
+  <text x="300" y="73" class="text-gather" font-size="10" font-weight="600">GATHER</text>
+  <text x="405" y="95" text-anchor="middle" class="text-primary" font-size="11" font-weight="500">Collect Basic Info</text>
+  <text x="405" y="115" text-anchor="middle" class="text-secondary" font-size="9">name, email (regex), funding stage</text>
+
+  <!-- Arrow -->
+  <line x1="520" y1="92" x2="545" y2="92" class="arrow" stroke-width="1.5"/>
+  <polygon points="543,88 550,92 543,96" class="arrow" fill="currentColor" style="fill: inherit; stroke: none;"/>
+
+  <!-- Item 3: Debate -->
+  <rect class="debate" x="550" y="55" width="230" height="75" rx="6" stroke-width="2"/>
+  <text x="560" y="73" class="text-debate" font-size="10" font-weight="600">DEBATE</text>
+  <text x="665" y="95" text-anchor="middle" class="text-primary" font-size="11" font-weight="500">Problem Deep Dive</text>
+  <text x="665" y="115" text-anchor="middle" class="text-secondary" font-size="9">"What problem are you solving?"</text>
+
+  <!-- Row 2 connector -->
+  <path d="M665 130 L665 160 L145 160 L145 175" class="connector" stroke-width="1.5" fill="none"/>
+  <polygon points="140,173 145,180 150,173" class="arrow" fill="currentColor" style="fill: inherit; stroke: none;"/>
+
+  <!-- Item 4: Debate -->
+  <rect class="debate" x="30" y="180" width="230" height="75" rx="6" stroke-width="2"/>
+  <text x="40" y="198" class="text-debate" font-size="10" font-weight="600">DEBATE</text>
+  <text x="145" y="220" text-anchor="middle" class="text-primary" font-size="11" font-weight="500">GTM Strategy</text>
+  <text x="145" y="240" text-anchor="middle" class="text-secondary" font-size="9">"What's your go-to-market?"</text>
+
+  <!-- Arrow -->
+  <line x1="260" y1="217" x2="285" y2="217" class="arrow" stroke-width="1.5"/>
+  <polygon points="283,213 290,217 283,221" class="arrow" fill="currentColor" style="fill: inherit; stroke: none;"/>
+
+  <!-- Item 5: QA -->
+  <rect class="qa" x="290" y="180" width="230" height="75" rx="6" stroke-width="2"/>
+  <text x="300" y="198" class="text-qa" font-size="10" font-weight="600">Q&amp;A</text>
+  <text x="405" y="220" text-anchor="middle" class="text-primary" font-size="11" font-weight="500">User Questions</text>
+  <text x="405" y="240" text-anchor="middle" class="text-secondary" font-size="9">"Any questions about Antler?"</text>
+
+  <!-- Arrow -->
+  <line x1="520" y1="217" x2="545" y2="217" class="arrow" stroke-width="1.5"/>
+  <polygon points="543,213 550,217 543,221" class="arrow" fill="currentColor" style="fill: inherit; stroke: none;"/>
+
+  <!-- Item 6: Convey -->
+  <rect class="convey" x="550" y="180" width="230" height="75" rx="6" stroke-width="2"/>
+  <text x="560" y="198" class="text-convey" font-size="10" font-weight="600">CONVEY (dynamic)</text>
+  <text x="665" y="220" text-anchor="middle" class="text-primary" font-size="11" font-weight="500">Personalized Closing</text>
+  <text x="665" y="240" text-anchor="middle" class="text-secondary" font-size="9">AI generates based on responses</text>
+
+  <!-- Data flow section -->
+  <line x1="30" y1="290" x2="780" y2="290" class="connector" stroke-width="1" stroke-dasharray="4,4"/>
+  <text x="400" y="315" text-anchor="middle" class="text-primary" font-size="12" font-weight="600">Data flows between items via placeholders</text>
+
+  <!-- Data flow arrows -->
+  <text x="80" y="345" class="text-gather" font-size="10">Gather outputs:</text>
+  <text x="80" y="362" class="text-secondary" font-size="10">{{founder_name}}, {{email}}, {{funding_stage}}</text>
+
+  <text x="80" y="390" class="text-secondary" font-size="10">Available in Debate prompts, Convey messages, condition logic, and completion webhooks</text>
+</svg>
