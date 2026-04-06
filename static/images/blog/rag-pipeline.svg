@@ -1,107 +1,102 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 320" fill="none">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 280" fill="none">
   <style>
     text { font-family: 'Fira Mono', monospace; }
     @media (prefers-color-scheme: dark) {
       .bg { fill: #1d1e20; }
-      .box { fill: #2e2e33; stroke: #414244; }
-      .box-hl { fill: #1e293b; stroke: #60a5fa; }
-      .box-green { fill: #1a2e1a; stroke: #4ade80; }
+      .box { fill: none; stroke: #555; }
       .text-primary { fill: #dadadb; }
-      .text-secondary { fill: #9b9c9d; }
-      .text-blue { fill: #60a5fa; }
-      .text-green { fill: #4ade80; }
-      .arrow { stroke: #9b9c9d; fill: #9b9c9d; }
-      .divider { stroke: #414244; }
+      .text-muted { fill: #888; }
+      .text-label { fill: #aaa; }
+      .arrow { stroke: #888; fill: #888; }
+      .divider { stroke: #444; }
     }
     @media (prefers-color-scheme: light) {
-      .bg { fill: #f5f5f5; }
-      .box { fill: #ffffff; stroke: #e0e0e0; }
-      .box-hl { fill: #eff6ff; stroke: #2563eb; }
-      .box-green { fill: #f0fdf4; stroke: #16a34a; }
+      .bg { fill: #fafafa; }
+      .box { fill: none; stroke: #ccc; }
       .text-primary { fill: #1a1a1a; }
-      .text-secondary { fill: #6b7280; }
-      .text-blue { fill: #2563eb; }
-      .text-green { fill: #16a34a; }
-      .arrow { stroke: #9ca3af; fill: #9ca3af; }
-      .divider { stroke: #e0e0e0; }
+      .text-muted { fill: #999; }
+      .text-label { fill: #666; }
+      .arrow { stroke: #999; fill: #999; }
+      .divider { stroke: #ddd; }
     }
   </style>
-  <rect class="bg" width="800" height="320" rx="8"/>
-  <text x="400" y="28" text-anchor="middle" class="text-primary" font-size="14" font-weight="600">RAG Pipeline: From Documents to Answers</text>
+  <rect class="bg" width="800" height="280" rx="6"/>
+  <text x="400" y="25" text-anchor="middle" class="text-primary" font-size="13" font-weight="600">RAG Pipeline</text>
 
-  <!-- Row 1: Ingestion -->
-  <text x="40" y="60" class="text-blue" font-size="11" font-weight="600">INGESTION (async)</text>
-  <rect class="box" x="40" y="70" width="120" height="55" rx="5" stroke-width="1.5"/>
-  <text x="100" y="92" text-anchor="middle" class="text-primary" font-size="10" font-weight="500">Upload</text>
-  <text x="100" y="108" text-anchor="middle" class="text-secondary" font-size="9">PDF, Docs, CSV</text>
+  <!-- Row 1 -->
+  <text x="40" y="52" class="text-label" font-size="10" font-weight="600">INGESTION (async)</text>
 
-  <line x1="160" y1="97" x2="190" y2="97" class="arrow" stroke-width="1.5"/>
-  <polygon points="188,93 195,97 188,101" class="arrow"/>
+  <rect class="box" x="40" y="60" width="115" height="45" rx="4" stroke-width="1.5"/>
+  <text x="97" y="80" text-anchor="middle" class="text-primary" font-size="10">Upload</text>
+  <text x="97" y="94" text-anchor="middle" class="text-muted" font-size="8">PDF, Docs, CSV</text>
 
-  <rect class="box" x="195" y="70" width="120" height="55" rx="5" stroke-width="1.5"/>
-  <text x="255" y="92" text-anchor="middle" class="text-primary" font-size="10" font-weight="500">Document Queue</text>
-  <text x="255" y="108" text-anchor="middle" class="text-secondary" font-size="9">BullMQ async job</text>
+  <line x1="155" y1="82" x2="182" y2="82" class="arrow" stroke-width="1"/>
+  <polygon points="180,78 187,82 180,86" class="arrow"/>
 
-  <line x1="315" y1="97" x2="345" y2="97" class="arrow" stroke-width="1.5"/>
-  <polygon points="343,93 350,97 343,101" class="arrow"/>
+  <rect class="box" x="190" y="60" width="115" height="45" rx="4" stroke-width="1.5"/>
+  <text x="247" y="80" text-anchor="middle" class="text-primary" font-size="10">Queue</text>
+  <text x="247" y="94" text-anchor="middle" class="text-muted" font-size="8">BullMQ job</text>
 
-  <rect class="box" x="350" y="70" width="120" height="55" rx="5" stroke-width="1.5"/>
-  <text x="410" y="92" text-anchor="middle" class="text-primary" font-size="10" font-weight="500">Chunk + Split</text>
-  <text x="410" y="108" text-anchor="middle" class="text-secondary" font-size="9">Paragraphs, sections</text>
+  <line x1="305" y1="82" x2="332" y2="82" class="arrow" stroke-width="1"/>
+  <polygon points="330,78 337,82 330,86" class="arrow"/>
 
-  <line x1="470" y1="97" x2="500" y2="97" class="arrow" stroke-width="1.5"/>
-  <polygon points="498,93 505,97 498,101" class="arrow"/>
+  <rect class="box" x="340" y="60" width="115" height="45" rx="4" stroke-width="1.5"/>
+  <text x="397" y="80" text-anchor="middle" class="text-primary" font-size="10">Chunk</text>
+  <text x="397" y="94" text-anchor="middle" class="text-muted" font-size="8">Split by paragraph</text>
 
-  <rect class="box" x="505" y="70" width="120" height="55" rx="5" stroke-width="1.5"/>
-  <text x="565" y="92" text-anchor="middle" class="text-primary" font-size="10" font-weight="500">Embedding Queue</text>
-  <text x="565" y="108" text-anchor="middle" class="text-secondary" font-size="9">OpenAI embeddings</text>
+  <line x1="455" y1="82" x2="482" y2="82" class="arrow" stroke-width="1"/>
+  <polygon points="480,78 487,82 480,86" class="arrow"/>
 
-  <line x1="625" y1="97" x2="655" y2="97" class="arrow" stroke-width="1.5"/>
-  <polygon points="653,93 660,97 653,101" class="arrow"/>
+  <rect class="box" x="490" y="60" width="115" height="45" rx="4" stroke-width="1.5"/>
+  <text x="547" y="80" text-anchor="middle" class="text-primary" font-size="10">Embed</text>
+  <text x="547" y="94" text-anchor="middle" class="text-muted" font-size="8">OpenAI vectors</text>
 
-  <rect class="box-hl" x="660" y="70" width="120" height="55" rx="5" stroke-width="2"/>
-  <text x="720" y="92" text-anchor="middle" class="text-primary" font-size="10" font-weight="500">Vector DB</text>
-  <text x="720" y="108" text-anchor="middle" class="text-blue" font-size="9">Pinecone</text>
+  <line x1="605" y1="82" x2="632" y2="82" class="arrow" stroke-width="1"/>
+  <polygon points="630,78 637,82 630,86" class="arrow"/>
+
+  <rect class="box" x="640" y="60" width="130" height="45" rx="4" stroke-width="1.5"/>
+  <text x="705" y="80" text-anchor="middle" class="text-primary" font-size="10">Vector DB</text>
+  <text x="705" y="94" text-anchor="middle" class="text-muted" font-size="8">Pinecone</text>
 
   <!-- Divider -->
-  <line x1="40" y1="145" x2="780" y2="145" class="divider" stroke-width="1" stroke-dasharray="4,4"/>
+  <line x1="40" y1="125" x2="770" y2="125" class="divider" stroke-width="1" stroke-dasharray="4,4"/>
 
-  <!-- Row 2: Retrieval -->
-  <text x="40" y="170" class="text-green" font-size="11" font-weight="600">RETRIEVAL (per message)</text>
+  <!-- Row 2 -->
+  <text x="40" y="150" class="text-label" font-size="10" font-weight="600">RETRIEVAL (per message)</text>
 
-  <rect class="box" x="40" y="180" width="130" height="55" rx="5" stroke-width="1.5"/>
-  <text x="105" y="202" text-anchor="middle" class="text-primary" font-size="10" font-weight="500">User Question</text>
-  <text x="105" y="218" text-anchor="middle" class="text-secondary" font-size="9">"What's your pricing?"</text>
+  <rect class="box" x="40" y="158" width="130" height="45" rx="4" stroke-width="1.5"/>
+  <text x="105" y="178" text-anchor="middle" class="text-primary" font-size="10">User question</text>
+  <text x="105" y="192" text-anchor="middle" class="text-muted" font-size="8">"What's your pricing?"</text>
 
-  <line x1="170" y1="207" x2="200" y2="207" class="arrow" stroke-width="1.5"/>
-  <polygon points="198,203 205,207 198,211" class="arrow"/>
+  <line x1="170" y1="180" x2="202" y2="180" class="arrow" stroke-width="1"/>
+  <polygon points="200,176 207,180 200,184" class="arrow"/>
 
-  <rect class="box" x="205" y="180" width="130" height="55" rx="5" stroke-width="1.5"/>
-  <text x="270" y="202" text-anchor="middle" class="text-primary" font-size="10" font-weight="500">Query Rewrite</text>
-  <text x="270" y="218" text-anchor="middle" class="text-secondary" font-size="9">Optimize for search</text>
+  <rect class="box" x="210" y="158" width="120" height="45" rx="4" stroke-width="1.5"/>
+  <text x="270" y="178" text-anchor="middle" class="text-primary" font-size="10">Rewrite query</text>
+  <text x="270" y="192" text-anchor="middle" class="text-muted" font-size="8">Optimize for search</text>
 
-  <line x1="335" y1="207" x2="365" y2="207" class="arrow" stroke-width="1.5"/>
-  <polygon points="363,203 370,207 363,211" class="arrow"/>
+  <line x1="330" y1="180" x2="362" y2="180" class="arrow" stroke-width="1"/>
+  <polygon points="360,176 367,180 360,184" class="arrow"/>
 
-  <rect class="box-hl" x="370" y="180" width="130" height="55" rx="5" stroke-width="2"/>
-  <text x="435" y="202" text-anchor="middle" class="text-primary" font-size="10" font-weight="500">Semantic Search</text>
-  <text x="435" y="218" text-anchor="middle" class="text-blue" font-size="9">Vector similarity</text>
+  <rect class="box" x="370" y="158" width="120" height="45" rx="4" stroke-width="1.5"/>
+  <text x="430" y="178" text-anchor="middle" class="text-primary" font-size="10">Vector search</text>
+  <text x="430" y="192" text-anchor="middle" class="text-muted" font-size="8">Similarity match</text>
 
-  <line x1="500" y1="207" x2="530" y2="207" class="arrow" stroke-width="1.5"/>
-  <polygon points="528,203 535,207 528,211" class="arrow"/>
+  <line x1="490" y1="180" x2="522" y2="180" class="arrow" stroke-width="1"/>
+  <polygon points="520,176 527,180 520,184" class="arrow"/>
 
-  <rect class="box" x="535" y="180" width="110" height="55" rx="5" stroke-width="1.5"/>
-  <text x="590" y="202" text-anchor="middle" class="text-primary" font-size="10" font-weight="500">Rank + Filter</text>
-  <text x="590" y="218" text-anchor="middle" class="text-secondary" font-size="9">Scope, language</text>
+  <rect class="box" x="530" y="158" width="100" height="45" rx="4" stroke-width="1.5"/>
+  <text x="580" y="178" text-anchor="middle" class="text-primary" font-size="10">Rank + filter</text>
+  <text x="580" y="192" text-anchor="middle" class="text-muted" font-size="8">Scope, language</text>
 
-  <line x1="645" y1="207" x2="665" y2="207" class="arrow" stroke-width="1.5"/>
-  <polygon points="663,203 670,207 663,211" class="arrow"/>
+  <line x1="630" y1="180" x2="652" y2="180" class="arrow" stroke-width="1"/>
+  <polygon points="650,176 657,180 650,184" class="arrow"/>
 
-  <rect class="box-green" x="670" y="180" width="110" height="55" rx="5" stroke-width="2"/>
-  <text x="725" y="202" text-anchor="middle" class="text-primary" font-size="10" font-weight="500">LLM + Context</text>
-  <text x="725" y="218" text-anchor="middle" class="text-green" font-size="9">Generate answer</text>
+  <rect class="box" x="660" y="158" width="110" height="45" rx="4" stroke-width="1.5"/>
+  <text x="715" y="178" text-anchor="middle" class="text-primary" font-size="10">LLM answer</text>
+  <text x="715" y="192" text-anchor="middle" class="text-muted" font-size="8">With context</text>
 
-  <!-- Bottom note -->
-  <text x="400" y="270" text-anchor="middle" class="text-secondary" font-size="10">Documents scoped per agent: some sources only available in specific agendas or channels</text>
-  <text x="400" y="288" text-anchor="middle" class="text-secondary" font-size="10">Auto-sync: webpages and live sources re-embed on schedule</text>
+  <!-- Footer -->
+  <text x="400" y="235" text-anchor="middle" class="text-muted" font-size="9">Documents scoped per agent — some sources only available in specific agendas or channels</text>
+  <text x="400" y="252" text-anchor="middle" class="text-muted" font-size="9">Auto-sync: webpages and live sources re-embed on schedule</text>
 </svg>

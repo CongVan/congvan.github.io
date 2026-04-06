@@ -1,71 +1,57 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 280" fill="none">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 240" fill="none">
   <style>
     text { font-family: 'Fira Mono', monospace; }
     @media (prefers-color-scheme: dark) {
       .bg { fill: #1d1e20; }
-      .box { fill: #2e2e33; stroke: #414244; }
-      .box-active { fill: #2e2e33; stroke: #6c9eff; }
+      .box { fill: none; stroke: #555; }
       .text-primary { fill: #dadadb; }
-      .text-secondary { fill: #9b9c9d; }
-      .arrow { stroke: #9b9c9d; }
-      .arrow-highlight { stroke: #6c9eff; }
-      .label-bg { fill: #1d1e20; }
+      .text-muted { fill: #888; }
+      .arrow { stroke: #888; fill: #888; }
     }
     @media (prefers-color-scheme: light) {
-      .bg { fill: #f5f5f5; }
-      .box { fill: #ffffff; stroke: #e0e0e0; }
-      .box-active { fill: #ffffff; stroke: #2563eb; }
+      .bg { fill: #fafafa; }
+      .box { fill: none; stroke: #ccc; }
       .text-primary { fill: #1a1a1a; }
-      .text-secondary { fill: #6b7280; }
-      .arrow { stroke: #9ca3af; }
-      .arrow-highlight { stroke: #2563eb; }
-      .label-bg { fill: #f5f5f5; }
+      .text-muted { fill: #999; }
+      .arrow { stroke: #999; fill: #999; }
     }
   </style>
-  <rect class="bg" width="800" height="280" rx="8"/>
+  <rect class="bg" width="800" height="240" rx="6"/>
 
-  <!-- Title -->
-  <text x="400" y="35" text-anchor="middle" class="text-primary" font-size="15" font-weight="600">Conversation Mode Transitions</text>
+  <text x="400" y="30" text-anchor="middle" class="text-primary" font-size="13" font-weight="600">Conversation Mode Transitions</text>
 
-  <!-- QA Mode Box -->
-  <rect class="box-active" x="40" y="70" width="200" height="80" rx="8" stroke-width="2"/>
-  <text x="140" y="103" text-anchor="middle" class="text-primary" font-size="14" font-weight="600">Q&amp;A Mode</text>
-  <text x="140" y="125" text-anchor="middle" class="text-secondary" font-size="11">User leads</text>
-  <text x="140" y="140" text-anchor="middle" class="text-secondary" font-size="11">Free-form questions</text>
+  <!-- QA -->
+  <rect class="box" x="50" y="60" width="180" height="70" rx="6" stroke-width="1.5"/>
+  <text x="140" y="90" text-anchor="middle" class="text-primary" font-size="12" font-weight="600">Q&amp;A Mode</text>
+  <text x="140" y="108" text-anchor="middle" class="text-muted" font-size="10">User leads</text>
 
-  <!-- Arrow 1 -->
-  <line x1="240" y1="110" x2="290" y2="110" class="arrow-highlight" stroke-width="2"/>
-  <polygon points="290,105 300,110 290,115" class="arrow-highlight" fill="currentColor" style="fill: inherit; stroke: none;"/>
-  <rect class="label-bg" x="242" y="83" width="55" height="16" rx="2"/>
-  <text x="270" y="94" text-anchor="middle" class="text-secondary" font-size="9">trigger</text>
+  <!-- Arrow -->
+  <line x1="230" y1="95" x2="295" y2="95" class="arrow" stroke-width="1.5"/>
+  <polygon points="293,90 303,95 293,100" class="arrow"/>
+  <text x="262" y="85" text-anchor="middle" class="text-muted" font-size="9">trigger</text>
 
-  <!-- Confirm Box -->
-  <rect class="box" x="300" y="70" width="200" height="80" rx="8" stroke-width="2"/>
-  <text x="400" y="103" text-anchor="middle" class="text-primary" font-size="14" font-weight="600">Confirm Agenda</text>
-  <text x="400" y="125" text-anchor="middle" class="text-secondary" font-size="11">"Would you like to</text>
-  <text x="400" y="140" text-anchor="middle" class="text-secondary" font-size="11">start screening?"</text>
+  <!-- Confirm -->
+  <rect class="box" x="305" y="60" width="180" height="70" rx="6" stroke-width="1.5"/>
+  <text x="395" y="90" text-anchor="middle" class="text-primary" font-size="12" font-weight="600">Confirm</text>
+  <text x="395" y="108" text-anchor="middle" class="text-muted" font-size="10">"Ready to start?"</text>
 
-  <!-- Arrow 2 -->
-  <line x1="500" y1="110" x2="550" y2="110" class="arrow-highlight" stroke-width="2"/>
-  <polygon points="550,105 560,110 550,115" class="arrow-highlight" fill="currentColor" style="fill: inherit; stroke: none;"/>
-  <rect class="label-bg" x="510" y="83" width="35" height="16" rx="2"/>
-  <text x="527" y="94" text-anchor="middle" class="text-secondary" font-size="9">yes</text>
+  <!-- Arrow -->
+  <line x1="485" y1="95" x2="555" y2="95" class="arrow" stroke-width="1.5"/>
+  <polygon points="553,90 563,95 553,100" class="arrow"/>
+  <text x="520" y="85" text-anchor="middle" class="text-muted" font-size="9">yes</text>
 
-  <!-- In Agenda Box -->
-  <rect class="box-active" x="560" y="70" width="200" height="80" rx="8" stroke-width="2"/>
-  <text x="660" y="103" text-anchor="middle" class="text-primary" font-size="14" font-weight="600">In Agenda</text>
-  <text x="660" y="125" text-anchor="middle" class="text-secondary" font-size="11">Persona leads</text>
-  <text x="660" y="140" text-anchor="middle" class="text-secondary" font-size="11">Structured flow</text>
+  <!-- In Agenda -->
+  <rect class="box" x="565" y="60" width="180" height="70" rx="6" stroke-width="1.5"/>
+  <text x="655" y="90" text-anchor="middle" class="text-primary" font-size="12" font-weight="600">In Agenda</text>
+  <text x="655" y="108" text-anchor="middle" class="text-muted" font-size="10">AI leads</text>
 
-  <!-- Decline arrow back -->
-  <path d="M400 150 L400 200 L140 200 L140 150" class="arrow" stroke-width="1.5" fill="none" stroke-dasharray="6,4"/>
-  <polygon points="135,150 140,140 145,150" class="arrow" fill="currentColor" style="fill: inherit; stroke: none;"/>
-  <rect class="label-bg" x="248" y="190" width="100" height="16" rx="2"/>
-  <text x="298" y="201" text-anchor="middle" class="text-secondary" font-size="9">decline / exit</text>
+  <!-- Decline back -->
+  <path d="M395 130 L395 170 L140 170 L140 130" class="arrow" stroke-width="1" fill="none" stroke-dasharray="5,4"/>
+  <polygon points="135,132 140,122 145,132" class="arrow"/>
+  <text x="268" y="165" text-anchor="middle" class="text-muted" font-size="9">decline / exit</text>
 
-  <!-- Complete arrow back -->
-  <path d="M660 150 L660 240 L140 240 L140 150" class="arrow" stroke-width="1.5" fill="none" stroke-dasharray="6,4"/>
-  <polygon points="135,150 140,140 145,150" class="arrow" fill="currentColor" style="fill: inherit; stroke: none;"/>
-  <rect class="label-bg" x="370" y="230" width="60" height="16" rx="2"/>
-  <text x="400" y="241" text-anchor="middle" class="text-secondary" font-size="9">complete</text>
+  <!-- Complete back -->
+  <path d="M655 130 L655 200 L140 200 L140 130" class="arrow" stroke-width="1" fill="none" stroke-dasharray="5,4"/>
+  <polygon points="135,132 140,122 145,132" class="arrow"/>
+  <text x="398" y="195" text-anchor="middle" class="text-muted" font-size="9">complete</text>
 </svg>
