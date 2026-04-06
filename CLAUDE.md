@@ -14,12 +14,23 @@ Hugo + PaperMod blog at congvan.github.io. GitHub username: CongVan. SSH alias: 
 - OK to describe **architectural patterns** (Agenda Engine, state machine, gRPC streaming, event-driven) — concepts aren't proprietary
 - OK to reference tech stack generically: Node.js, Python, PostgreSQL, Redis, Firebase, gRPC, OpenAI
 
-### Writing Style
-- Code-heavy but using mock/illustrative examples
-- Include SVG diagrams for architecture flows (dark/light mode compatible using CSS prefers-color-scheme)
-- Frame as "a platform I built" or "in my experience building..."
-- First person, practitioner voice — not academic or tutorial-style
-- Short paragraphs, direct sentences
+### Writing Style — Sound Like a Human, Not an AI
+- **Simple words.** Write like you're explaining to a colleague at a whiteboard, not writing a textbook. If a 5th-grader can't understand the sentence structure, simplify it.
+- **Short sentences.** One idea per sentence. Break long sentences into two.
+- **Straightforward.** Say what you mean. No hedging ("it's worth noting that..."), no filler ("in order to", "it should be noted"), no throat-clearing.
+- **Goal-focused.** Every section answers one question. If a paragraph doesn't serve the topic's goal, cut it.
+- **First person, practitioner voice.** "I built this" not "the system was designed." Share what you did, what broke, what you learned.
+- **No AI-sounding phrases.** Avoid: "it's important to note", "leveraging", "in today's landscape", "comprehensive", "robust", "utilize", "facilitate", "delve into", "it's worth mentioning."
+- **Show, don't tell.** Code and diagrams over explanation. A 10-line code block beats 3 paragraphs of description.
+- **Code-heavy** but using mock/illustrative examples — never production code.
+- Frame as "a platform I built" or "in my experience..."
+
+### Diagram Style
+- SVG with dark/light mode via CSS `prefers-color-scheme`
+- **Simple colors only:** use 2 tones — primary text + muted. No colored backgrounds, no rainbow boxes.
+- Monochrome: `#dadadb` / `#888` (dark), `#1a1a1a` / `#999` (light)
+- Boxes: no fill, just border strokes
+- Font: Fira Mono, consistent with site
 
 ### Architecture Context (for accurate mock code)
 - **Backend**: Node.js/TypeScript, Express, PostgreSQL (Prisma), Redis, BullMQ, Firebase Firestore

@@ -1,90 +1,71 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 300" fill="none">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 240" fill="none">
   <style>
     text { font-family: 'Fira Mono', monospace; }
     @media (prefers-color-scheme: dark) {
       .bg { fill: #1d1e20; }
-      .phase1 { fill: #1e293b; stroke: #60a5fa; }
-      .phase2 { fill: #2d1b3d; stroke: #c084fc; }
-      .phase3 { fill: #1a2e1a; stroke: #4ade80; }
+      .box { fill: none; stroke: #555; }
       .text-primary { fill: #dadadb; }
-      .text-secondary { fill: #9b9c9d; }
-      .text-p1 { fill: #60a5fa; }
-      .text-p2 { fill: #c084fc; }
-      .text-p3 { fill: #4ade80; }
-      .arrow { stroke: #9b9c9d; }
-      .bullet { fill: #9b9c9d; }
+      .text-muted { fill: #888; }
+      .arrow { stroke: #888; fill: #888; }
+      .bullet { fill: #888; }
     }
     @media (prefers-color-scheme: light) {
-      .bg { fill: #f5f5f5; }
-      .phase1 { fill: #eff6ff; stroke: #2563eb; }
-      .phase2 { fill: #faf5ff; stroke: #9333ea; }
-      .phase3 { fill: #f0fdf4; stroke: #16a34a; }
+      .bg { fill: #fafafa; }
+      .box { fill: none; stroke: #ccc; }
       .text-primary { fill: #1a1a1a; }
-      .text-secondary { fill: #6b7280; }
-      .text-p1 { fill: #2563eb; }
-      .text-p2 { fill: #9333ea; }
-      .text-p3 { fill: #16a34a; }
-      .arrow { stroke: #9ca3af; }
-      .bullet { fill: #6b7280; }
+      .text-muted { fill: #999; }
+      .arrow { stroke: #999; fill: #999; }
+      .bullet { fill: #999; }
     }
   </style>
-  <rect class="bg" width="800" height="300" rx="8"/>
+  <rect class="bg" width="800" height="240" rx="6"/>
 
-  <text x="400" y="30" text-anchor="middle" class="text-primary" font-size="15" font-weight="600">The Collect → Verify → Action Pattern</text>
+  <text x="400" y="28" text-anchor="middle" class="text-primary" font-size="13" font-weight="600">Collect → Verify → Action</text>
 
-  <!-- Phase 1: Collect -->
-  <rect class="phase1" x="30" y="55" width="230" height="200" rx="8" stroke-width="2"/>
-  <text x="145" y="80" text-anchor="middle" class="text-p1" font-size="14" font-weight="700">COLLECT</text>
+  <!-- Collect -->
+  <rect class="box" x="30" y="48" width="230" height="170" rx="6" stroke-width="1.5"/>
+  <text x="145" y="72" text-anchor="middle" class="text-primary" font-size="13" font-weight="700">COLLECT</text>
+  <circle class="bullet" cx="52" cy="98" r="2"/>
+  <text x="62" y="102" class="text-muted" font-size="10">Gather: ask + validate</text>
+  <circle class="bullet" cx="52" cy="118" r="2"/>
+  <text x="62" y="122" class="text-muted" font-size="10">Debate: explore + probe</text>
+  <circle class="bullet" cx="52" cy="138" r="2"/>
+  <text x="62" y="142" class="text-muted" font-size="10">Asked outputs (explicit)</text>
+  <circle class="bullet" cx="52" cy="158" r="2"/>
+  <text x="62" y="162" class="text-muted" font-size="10">Inferred outputs (AI)</text>
+  <text x="145" y="200" text-anchor="middle" class="text-muted" font-size="9">Redis + PostgreSQL</text>
 
-  <circle class="bullet" cx="55" cy="108" r="2.5"/>
-  <text x="65" y="112" class="text-primary" font-size="10">Gather: ask + validate</text>
-  <circle class="bullet" cx="55" cy="132" r="2.5"/>
-  <text x="65" y="136" class="text-primary" font-size="10">Debate: explore + probe</text>
-  <circle class="bullet" cx="55" cy="156" r="2.5"/>
-  <text x="65" y="160" class="text-primary" font-size="10">Asked outputs (explicit)</text>
-  <circle class="bullet" cx="55" cy="180" r="2.5"/>
-  <text x="65" y="184" class="text-primary" font-size="10">Inferred outputs (AI)</text>
+  <!-- Arrow -->
+  <line x1="260" y1="133" x2="285" y2="133" class="arrow" stroke-width="2"/>
+  <polygon points="283,128 292,133 283,138" class="arrow"/>
 
-  <text x="145" y="225" text-anchor="middle" class="text-secondary" font-size="9">Items: GATHER, DEBATE</text>
-  <text x="145" y="242" text-anchor="middle" class="text-secondary" font-size="9">Storage: Redis + PostgreSQL</text>
+  <!-- Verify -->
+  <rect class="box" x="290" y="48" width="220" height="170" rx="6" stroke-width="1.5"/>
+  <text x="400" y="72" text-anchor="middle" class="text-primary" font-size="13" font-weight="700">VERIFY</text>
+  <circle class="bullet" cx="310" cy="98" r="2"/>
+  <text x="320" y="102" class="text-muted" font-size="10">Regex validation</text>
+  <circle class="bullet" cx="310" cy="118" r="2"/>
+  <text x="320" y="122" class="text-muted" font-size="10">User confirmation</text>
+  <circle class="bullet" cx="310" cy="138" r="2"/>
+  <text x="320" y="142" class="text-muted" font-size="10">Re-prompt on failure</text>
+  <circle class="bullet" cx="310" cy="158" r="2"/>
+  <text x="320" y="162" class="text-muted" font-size="10">Stale threshold (3x)</text>
+  <text x="400" y="200" text-anchor="middle" class="text-muted" font-size="9">Prevents bad data</text>
 
-  <!-- Arrow 1→2 -->
-  <line x1="260" y1="155" x2="285" y2="155" class="arrow" stroke-width="2"/>
-  <polygon points="283,150 292,155 283,160" class="arrow" fill="currentColor" style="fill: inherit; stroke: none;"/>
+  <!-- Arrow -->
+  <line x1="510" y1="133" x2="540" y2="133" class="arrow" stroke-width="2"/>
+  <polygon points="538,128 547,133 538,138" class="arrow"/>
 
-  <!-- Phase 2: Verify -->
-  <rect class="phase2" x="290" y="55" width="220" height="200" rx="8" stroke-width="2"/>
-  <text x="400" y="80" text-anchor="middle" class="text-p2" font-size="14" font-weight="700">VERIFY</text>
-
-  <circle class="bullet" cx="310" cy="108" r="2.5"/>
-  <text x="320" y="112" class="text-primary" font-size="10">Regex validation</text>
-  <circle class="bullet" cx="310" cy="132" r="2.5"/>
-  <text x="320" y="136" class="text-primary" font-size="10">User confirmation</text>
-  <circle class="bullet" cx="310" cy="156" r="2.5"/>
-  <text x="320" y="160" class="text-primary" font-size="10">Re-prompt on failure</text>
-  <circle class="bullet" cx="310" cy="180" r="2.5"/>
-  <text x="320" y="184" class="text-primary" font-size="10">Stale threshold (3x)</text>
-
-  <text x="400" y="225" text-anchor="middle" class="text-secondary" font-size="9">Prevents bad data</text>
-  <text x="400" y="242" text-anchor="middle" class="text-secondary" font-size="9">from reaching Action</text>
-
-  <!-- Arrow 2→3 -->
-  <line x1="510" y1="155" x2="540" y2="155" class="arrow" stroke-width="2"/>
-  <polygon points="538,150 547,155 538,160" class="arrow" fill="currentColor" style="fill: inherit; stroke: none;"/>
-
-  <!-- Phase 3: Action -->
-  <rect class="phase3" x="545" y="55" width="230" height="200" rx="8" stroke-width="2"/>
-  <text x="660" y="80" text-anchor="middle" class="text-p3" font-size="14" font-weight="700">ACTION</text>
-
-  <circle class="bullet" cx="565" cy="108" r="2.5"/>
-  <text x="575" y="112" class="text-primary" font-size="10">Webhook (Zapier, API)</text>
-  <circle class="bullet" cx="565" cy="132" r="2.5"/>
-  <text x="575" y="136" class="text-primary" font-size="10">HubSpot (deals)</text>
-  <circle class="bullet" cx="565" cy="156" r="2.5"/>
-  <text x="575" y="160" class="text-primary" font-size="10">Google Sheets</text>
-  <circle class="bullet" cx="565" cy="180" r="2.5"/>
-  <text x="575" y="184" class="text-primary" font-size="10">Email confirmation</text>
-
-  <text x="660" y="225" text-anchor="middle" class="text-secondary" font-size="9">Triggered on</text>
-  <text x="660" y="242" text-anchor="middle" class="text-secondary" font-size="9">agenda completion</text>
+  <!-- Action -->
+  <rect class="box" x="545" y="48" width="230" height="170" rx="6" stroke-width="1.5"/>
+  <text x="660" y="72" text-anchor="middle" class="text-primary" font-size="13" font-weight="700">ACTION</text>
+  <circle class="bullet" cx="565" cy="98" r="2"/>
+  <text x="575" y="102" class="text-muted" font-size="10">Webhook (Zapier, API)</text>
+  <circle class="bullet" cx="565" cy="118" r="2"/>
+  <text x="575" y="122" class="text-muted" font-size="10">CRM (HubSpot)</text>
+  <circle class="bullet" cx="565" cy="138" r="2"/>
+  <text x="575" y="142" class="text-muted" font-size="10">Google Sheets</text>
+  <circle class="bullet" cx="565" cy="158" r="2"/>
+  <text x="575" y="162" class="text-muted" font-size="10">Email confirmation</text>
+  <text x="660" y="200" text-anchor="middle" class="text-muted" font-size="9">On agenda completion</text>
 </svg>
