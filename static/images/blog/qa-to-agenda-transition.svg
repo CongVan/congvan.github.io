@@ -2,7 +2,7 @@
   <style>
     text { font-family: 'Fira Mono', monospace; }
     @media (prefers-color-scheme: dark) {
-      .bg { fill: #1d1e20; }
+      .bg { fill: none; }
       .box { fill: none; stroke: #555; }
       .bubble { fill: #2e2e33; stroke: #414244; }
       .text-primary { fill: #dadadb; }
@@ -10,7 +10,7 @@
       .arrow { stroke: #888; fill: #888; }
     }
     @media (prefers-color-scheme: light) {
-      .bg { fill: #fafafa; }
+      .bg { fill: none; }
       .box { fill: none; stroke: #ccc; }
       .bubble { fill: #fff; stroke: #ddd; }
       .text-primary { fill: #1a1a1a; }
