@@ -2,7 +2,7 @@
   <style>
     text { font-family: 'Fira Mono', monospace; }
     @media (prefers-color-scheme: dark) {
-      .bg { fill: #1d1e20; }
+      .bg { fill: none; }
       .box { fill: none; stroke: #555; }
       .text-primary { fill: #dadadb; }
       .text-muted { fill: #888; }
@@ -11,7 +11,7 @@
       .divider { stroke: #444; }
     }
     @media (prefers-color-scheme: light) {
-      .bg { fill: #fafafa; }
+      .bg { fill: none; }
       .box { fill: none; stroke: #ccc; }
       .text-primary { fill: #1a1a1a; }
       .text-muted { fill: #999; }

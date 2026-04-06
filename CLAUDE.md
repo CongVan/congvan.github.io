@@ -29,6 +29,7 @@ Hugo + PaperMod blog at congvan.github.io. GitHub username: CongVan. SSH alias: 
 - SVG with dark/light mode via CSS `prefers-color-scheme`
 - **Simple colors only:** use 2 tones — primary text + muted. No colored backgrounds, no rainbow boxes.
 - Monochrome: `#dadadb` / `#888` (dark), `#1a1a1a` / `#999` (light)
+- **Transparent background** — `.bg { fill: none; }` so SVGs blend with the page
 - Boxes: no fill, just border strokes
 - Font: Fira Mono, consistent with site
 
