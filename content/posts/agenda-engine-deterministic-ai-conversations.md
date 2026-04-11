@@ -23,7 +23,7 @@ Ask GPT-4 to "collect the user's name, email, and phone number, then ask about t
 
 By the 500th conversation, it skips the phone number. By the 1000th, it hallucinates an API call. By the 5000th, a creative user convinces it to skip the entire flow.
 
-I learned this building an AI-powered conversational platform for enterprise clients. When a VC firm uses your AI to screen startup founders, "it usually works" is not acceptable.
+I learned this building an AI-powered conversational platform for enterprise clients. When a VC firm uses the AI to screen startup founders, "it usually works" is not acceptable.
 
 **LLMs are excellent at generating natural language. They are terrible at enforcing multi-step business processes.**
 

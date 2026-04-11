@@ -24,7 +24,7 @@ A user sends a message. The response has to feel instant.
 
 Waiting 8 seconds for a full response is a non-starter. ChatGPT set the expectation — [OpenAI's streaming API](https://platform.openai.com/docs/api-reference/streaming) returns tokens as they're generated, and users now expect every AI chat to do the same.
 
-The naive approach is to pipe those tokens straight through your backend to the browser. It works. It's 15 lines of code. And it has a brutal failure mode:
+The naive approach is to pipe those tokens straight through the backend to the browser. It works. It's 15 lines of code. And it has a brutal failure mode:
 
 **The browser disconnects halfway through. The whole response is lost.**
 
@@ -58,7 +58,7 @@ The client consumer (browser, WhatsApp webhook, admin dashboard) reads from Redi
 
 ## Hop 1: LLM to AI Service
 
-Inside the Python AI service, each call to OpenAI returns an async iterator. You loop over it. Each iteration gives you either a text chunk or a partial tool call.
+Inside the Python AI service, each call to OpenAI returns an async iterator. The service loops over it. Each iteration yields either a text chunk or a partial tool call.
 
 ```python
 async def stream_llm_response(messages, tools):

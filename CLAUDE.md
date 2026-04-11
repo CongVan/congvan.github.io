@@ -20,6 +20,7 @@ Hugo + PaperMod blog at congvan.github.io. GitHub username: CongVan. SSH alias: 
 - **Straightforward.** Say what you mean. No hedging ("it's worth noting that..."), no filler ("in order to", "it should be noted"), no throat-clearing.
 - **Goal-focused.** Every section answers one question. If a paragraph doesn't serve the topic's goal, cut it.
 - **First person, practitioner voice.** "I built this" not "the system was designed." Share what you did, what broke, what you learned.
+- **No "you" / "your" addressing the reader.** These posts share experience, not step-by-step instructions. Use "I" for personal decisions ("I built", "I ran into"), "we" for team decisions, and third person for the system ("the backend", "the AI service"). Change "your backend" → "the backend", "you can configure" → "I configure" or "the system is configured". Exception: "you" / "your" inside **quoted dialogue** (AI prompts, user messages, conversation examples) is fine — that's not addressing the reader.
 - **No AI-sounding phrases.** Avoid: "it's important to note", "leveraging", "in today's landscape", "comprehensive", "robust", "utilize", "facilitate", "delve into", "it's worth mentioning."
 - **Show, don't tell.** Code and diagrams over explanation. A 10-line code block beats 3 paragraphs of description.
 - **Code-heavy** but using mock/illustrative examples — never production code.
