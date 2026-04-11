@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 400" fill="none">
+  <style>
+    text { font-family: 'Fira Mono', monospace; }
+    @media (prefers-color-scheme: dark) {
+      .box { fill: none; stroke: #555; }
+      .text-primary { fill: #dadadb; }
+      .text-muted { fill: #888; }
+      .text-label { fill: #aaa; }
+      .line { stroke: #888; fill: none; }
+      .head { fill: #888; stroke: none; }
+    }
+    @media (prefers-color-scheme: light) {
+      .box { fill: none; stroke: #ccc; }
+      .text-primary { fill: #1a1a1a; }
+      .text-muted { fill: #999; }
+      .text-label { fill: #555; }
+      .line { stroke: #999; fill: none; }
+      .head { fill: #999; stroke: none; }
+    }
+  </style>
+
+  <text x="440" y="30" text-anchor="middle" class="text-primary" font-size="13" font-weight="600">Multi-Level Prompt Stack</text>
+
+  <!-- Level 1: Persona (widest) -->
+  <rect class="box" x="40" y="60" width="800" height="95" rx="6" stroke-width="1.5"/>
+  <text x="55" y="82" class="text-label" font-size="11" font-weight="700">LEVEL 1 — PERSONA</text>
+  <text x="55" y="102" class="text-muted" font-size="10">Who the AI is. Applied to every message in every conversation.</text>
+  <text x="65" y="124" class="text-muted" font-size="9">• Role: "You are Kevin, a casual VC scout at a pre-seed fund"</text>
+  <text x="65" y="140" class="text-muted" font-size="9">• Style: formality, humor, perspective, detail level, emoji policy</text>
+
+  <!-- Arrow down -->
+  <line x1="440" y1="155" x2="440" y2="175" class="line" stroke-width="1.3"/>
+  <polygon points="436,172 440,182 444,172" class="head"/>
+
+  <!-- Level 2: Agenda (narrower) -->
+  <rect class="box" x="100" y="185" width="680" height="80" rx="6" stroke-width="1.5"/>
+  <text x="115" y="207" class="text-label" font-size="11" font-weight="700">LEVEL 2 — AGENDA</text>
+  <text x="115" y="227" class="text-muted" font-size="10">What the AI is trying to accomplish right now.</text>
+  <text x="125" y="246" class="text-muted" font-size="9">• Purpose: "Screen pre-seed founders for investment fit"</text>
+  <text x="125" y="259" class="text-muted" font-size="9">• Trigger + pre-populated context from prior Q&amp;A mode</text>
+
+  <!-- Arrow down -->
+  <line x1="440" y1="265" x2="440" y2="285" class="line" stroke-width="1.3"/>
+  <polygon points="436,282 440,292 444,282" class="head"/>
+
+  <!-- Level 3: Item (narrowest) -->
+  <rect class="box" x="160" y="295" width="560" height="80" rx="6" stroke-width="1.5"/>
+  <text x="175" y="317" class="text-label" font-size="11" font-weight="700">LEVEL 3 — ITEM</text>
+  <text x="175" y="337" class="text-muted" font-size="10">The specific task the current item is doing.</text>
+  <text x="185" y="356" class="text-muted" font-size="9">• Task: "Ask about market size. Probe if answer is vague."</text>
+  <text x="185" y="369" class="text-muted" font-size="9">• Placeholders: {{ startup_name }}, {{ previous_outputs }}</text>
+</svg>
