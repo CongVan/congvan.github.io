@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 340" fill="none">
+  <style>
+    text { font-family: 'Fira Mono', monospace; }
+    @media (prefers-color-scheme: dark) {
+      .box { fill: none; stroke: #555; }
+      .text-primary { fill: #dadadb; }
+      .text-muted { fill: #888; }
+      .text-label { fill: #aaa; }
+      .line { stroke: #888; fill: none; }
+      .head { fill: #888; stroke: none; }
+    }
+    @media (prefers-color-scheme: light) {
+      .box { fill: none; stroke: #ccc; }
+      .text-primary { fill: #1a1a1a; }
+      .text-muted { fill: #999; }
+      .text-label { fill: #555; }
+      .line { stroke: #999; fill: none; }
+      .head { fill: #999; stroke: none; }
+    }
+  </style>
+
+  <text x="440" y="30" text-anchor="middle" class="text-primary" font-size="13" font-weight="600">One Message Cycle: Read → AI → Write</text>
+
+  <!-- Step 1: User message arrives -->
+  <rect class="box" x="40" y="60" width="170" height="55" rx="5" stroke-width="1.3"/>
+  <text x="125" y="82" text-anchor="middle" class="text-primary" font-size="10" font-weight="600">1. User message</text>
+  <text x="125" y="100" text-anchor="middle" class="text-muted" font-size="9">arrives at backend</text>
+
+  <line x1="210" y1="87" x2="240" y2="87" class="line" stroke-width="1.3"/>
+  <polygon points="238,83 246,87 238,91" class="head"/>
+
+  <!-- Step 2: Read state -->
+  <rect class="box" x="250" y="60" width="200" height="55" rx="5" stroke-width="1.3"/>
+  <text x="350" y="82" text-anchor="middle" class="text-primary" font-size="10" font-weight="600">2. Read Redis state</text>
+  <text x="350" y="100" text-anchor="middle" class="text-muted" font-size="9">HGETALL :state + :outputs</text>
+
+  <line x1="450" y1="87" x2="480" y2="87" class="line" stroke-width="1.3"/>
+  <polygon points="478,83 486,87 478,91" class="head"/>
+
+  <!-- Step 3: Call AI service -->
+  <rect class="box" x="490" y="60" width="200" height="55" rx="5" stroke-width="1.3"/>
+  <text x="590" y="82" text-anchor="middle" class="text-primary" font-size="10" font-weight="600">3. Call AI service</text>
+  <text x="590" y="100" text-anchor="middle" class="text-muted" font-size="9">gRPC with state + message</text>
+
+  <line x1="690" y1="87" x2="720" y2="87" class="line" stroke-width="1.3"/>
+  <polygon points="718,83 726,87 718,91" class="head"/>
+
+  <!-- Step 4: Receive events -->
+  <rect class="box" x="730" y="60" width="130" height="55" rx="5" stroke-width="1.3"/>
+  <text x="795" y="82" text-anchor="middle" class="text-primary" font-size="10" font-weight="600">4. Stream events</text>
+  <text x="795" y="100" text-anchor="middle" class="text-muted" font-size="9">EventResponse</text>
+
+  <!-- Down arrow -->
+  <line x1="795" y1="115" x2="795" y2="155" class="line" stroke-width="1.3"/>
+  <polygon points="791,152 795,162 799,152" class="head"/>
+
+  <!-- Step 5: Fan-out writes -->
+  <rect class="box" x="680" y="165" width="180" height="55" rx="5" stroke-width="1.3"/>
+  <text x="770" y="187" text-anchor="middle" class="text-primary" font-size="10" font-weight="600">5. Fan-out writes</text>
+  <text x="770" y="205" text-anchor="middle" class="text-muted" font-size="9">XADD + HSET (atomic)</text>
+
+  <!-- Arrow back left -->
+  <line x1="680" y1="192" x2="510" y2="192" class="line" stroke-width="1.3" stroke-dasharray="4 3"/>
+  <polygon points="512,188 504,192 512,196" class="head"/>
+
+  <!-- Step 6: Loop until done -->
+  <rect class="box" x="330" y="165" width="170" height="55" rx="5" stroke-width="1.3"/>
+  <text x="415" y="187" text-anchor="middle" class="text-primary" font-size="10" font-weight="600">6. Loop</text>
+  <text x="415" y="205" text-anchor="middle" class="text-muted" font-size="9">until end event</text>
+
+  <!-- Down to 7 -->
+  <line x1="415" y1="220" x2="415" y2="255" class="line" stroke-width="1.3"/>
+  <polygon points="411,252 415,262 419,252" class="head"/>
+
+  <!-- Step 7: On end, flush Postgres -->
+  <rect class="box" x="280" y="265" width="270" height="55" rx="5" stroke-width="1.3"/>
+  <text x="415" y="287" text-anchor="middle" class="text-primary" font-size="10" font-weight="600">7. On endAgenda: flush Postgres</text>
+  <text x="415" y="305" text-anchor="middle" class="text-muted" font-size="9">durable record, Redis keeps TTL</text>
+
+  <text x="440" y="333" text-anchor="middle" class="text-muted" font-size="9">Total state read on every user message: 2 Redis round trips (~1ms on LAN)</text>
+</svg>

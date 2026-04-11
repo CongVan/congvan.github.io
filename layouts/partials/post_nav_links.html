@@ -1,0 +1,38 @@
+{{- /*
+  Series-scoped prev/next nav.
+  Only shows prev/next posts that belong to the SAME series and are
+  adjacent by weight. Shows nothing (no link, no placeholder) if the
+  post is not in a series or is at the start/end of its series.
+*/ -}}
+{{- if .Params.series }}
+  {{- $currentWeight := .Params.weight }}
+  {{- $seriesPages := where site.RegularPages "Params.series" "intersect" .Params.series }}
+  {{- $sorted := sort $seriesPages "Params.weight" "asc" }}
+  {{- $total := len $sorted }}
+  {{- $prev := false }}
+  {{- $next := false }}
+  {{- range $i, $p := $sorted }}
+    {{- if eq $p.Params.weight $currentWeight }}
+      {{- if gt $i 0 }}{{ $prev = index $sorted (sub $i 1) }}{{ end }}
+      {{- if lt $i (sub $total 1) }}{{ $next = index $sorted (add $i 1) }}{{ end }}
+    {{- end }}
+  {{- end }}
+  {{- if or $prev $next }}
+<nav class="paginav">
+  {{- with $prev }}
+  <a class="prev" href="{{ .Permalink }}">
+    <span class="title">« Previous in series</span>
+    <br>
+    <span>Day {{ .Params.weight }} — {{ .Name }}</span>
+  </a>
+  {{- end }}
+  {{- with $next }}
+  <a class="next" href="{{ .Permalink }}">
+    <span class="title">Next in series »</span>
+    <br>
+    <span>Day {{ .Params.weight }} — {{ .Name }}</span>
+  </a>
+  {{- end }}
+</nav>
+  {{- end }}
+{{- end }}
