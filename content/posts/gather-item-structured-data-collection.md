@@ -1,12 +1,13 @@
 ---
-title: "The Gather Item: Collecting Structured Data Through Conversation"
+title: "Gather Item: Structured Data Collection via Conversation"
 date: 2026-04-11T13:00:00+07:00
-lastmod: 2026-04-11T13:00:00+07:00
+lastmod: 2026-04-11T16:00:00+07:00
 draft: false
 tags: ["AI Research", "Backend"]
 categories: ["Building a Conversational AI Platform"]
 series: ["Building a Conversational AI Platform"]
-summary: "Gather is where the platform earns its keep — turning a messy free-form conversation into clean structured data. Asked vs inferred outputs, regex validation, a field-level state machine, pre-population from prior context, and the stale threshold that stops the AI from asking the same question forever."
+summary: "Gather turns messy conversation into clean structured data. Asked vs inferred outputs, field state machine, regex validation, pre-population (30-50% hit rate), and the stale threshold that stops infinite loops."
+description: "Gather turns messy conversation into clean structured data. Field state machine, regex validation, pre-population with 30-50% hit rate, stale threshold after 3 attempts."
 ShowToc: true
 weight: 6
 seriesTotal: 12
@@ -15,6 +16,12 @@ seriesTotal: 12
 {{< series-nav >}}
 
 *Day 6 of 12. [Day 5](/posts/convey-item-scripted-dynamic-messages/) was Convey — the simple item that just sends a message. Today: Gather, the item that does the actual data collection work.*
+
+> **TL;DR**
+> - **Asked vs inferred**: Gather items mix explicit questions ("What's your email?") with background extraction (pulling `funding_stage = "pre-seed"` from whatever the user said).
+> - **Field state machine**: every output has a state — `PENDING`, `PROVIDED`, `INVALID`, `STALE`, `PRE_FILLED`, or `REFUSED`. The item only completes when every required field is terminal.
+> - **Pre-population from history**: scanning the last 20 messages before asking anything catches 30-50% of fields the user already mentioned in Q&A mode.
+> - **Stale threshold (3 attempts)**: if regex validation fails 3 times, the field is marked stale and the item moves on. Prevents infinite "could you double-check your email?" loops.
 
 ---
 

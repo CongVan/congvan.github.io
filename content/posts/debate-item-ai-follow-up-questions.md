@@ -1,12 +1,13 @@
 ---
-title: "The Debate Item: AI-Generated Follow-Up Questions for Open-Ended Exploration"
+title: "Debate Item: AI Follow-Up Questions for Open Exploration"
 date: 2026-04-11T14:00:00+07:00
-lastmod: 2026-04-11T14:00:00+07:00
+lastmod: 2026-04-11T16:00:00+07:00
 draft: false
-tags: ["AI Research"]
+tags: ["AI Research", "Backend"]
 categories: ["Building a Conversational AI Platform"]
 series: ["Building a Conversational AI Platform"]
-summary: "Gather collects specific fields. Debate explores a topic openly — it asks one starting question, reads the response, and generates 3-5 follow-ups that probe deeper. At the end, it summarizes everything it learned into structured outputs. Here's the loop, the prompt strategy, and why I use Debate for anything a screening interview would cover."
+summary: "Debate explores a topic with 3-5 AI-generated follow-ups, then summarizes into structured outputs. Costs 4-6 LLM calls per item — reserved for screening interviews and needs assessment."
+description: "Debate explores a topic with 3-5 AI-generated follow-ups, then summarizes into structured outputs. Costs 4-6 LLM calls per item — reserved for screening and needs assessment."
 ShowToc: true
 weight: 7
 seriesTotal: 12
@@ -15,6 +16,12 @@ seriesTotal: 12
 {{< series-nav >}}
 
 *Day 7 of 12. [Day 6](/posts/gather-item-structured-data-collection/) was Gather — targeted questions with regex validation. Today: Debate, which is Gather's open-ended cousin. No regex, no fixed fields, just a conversation that gets deeper with each turn.*
+
+> **TL;DR**
+> - **Open-ended exploration**: one starting question, then N (usually 3-5) AI-generated follow-ups that probe deeper based on the user's answers.
+> - **Three LLM calls per item minimum**: optional dynamic starting question, one follow-up per round, one final summarization pass.
+> - **Structured output via summarization**: the summary step extracts named fields (`problem_summary`, `confidence_score`, `red_flags`) from the exchange so the whole conversation turns into clean data.
+> - **Cost**: at 5 rounds with dynamic starting, that's 7 LLM calls per item. Reserved for high-value exchanges like screening interviews — ~15-20 LLM calls per full conversation.
 
 ---
 
@@ -148,6 +155,8 @@ A1: We help small businesses manage inventory across multiple sales channels.
 Q2: How do you differentiate from existing players like Shopify or Square?
 A2: We focus on the long tail — businesses too small for those platforms.
 ```
+
+### Why the Prompt Grows Each Round
 
 Each round, the prompt grows. By round 4, the LLM has seen 3 prior exchanges and can spot threads worth pulling on. "You mentioned the long tail — how do you acquire customers that small cheaply?" is exactly the kind of question a human screener would ask next.
 

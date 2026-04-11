@@ -1,12 +1,13 @@
 ---
-title: "Conversation State in Redis: Hashes, Streams, and a Single Source of Truth"
+title: "Conversation State in Redis: Hashes, Streams, One Source of Truth"
 date: 2026-04-11T11:00:00+07:00
-lastmod: 2026-04-11T11:00:00+07:00
+lastmod: 2026-04-11T16:00:00+07:00
 draft: false
-tags: ["Backend"]
+tags: ["Backend", "AI Research"]
 categories: ["Building a Conversational AI Platform"]
 series: ["Building a Conversational AI Platform"]
-summary: "Chat text lives in Redis Streams. But what about the state — which agenda is running, which item is active, what data got collected? That lives in Redis too, in different data structures. Here's the full key layout, how events update state atomically, and why keeping everything in one store simplifies the AI flow."
+summary: "Redis holds every active conversation's state in 4 data structures with sub-ms reads. The full key layout and the MULTI/EXEC pattern that keeps events atomic."
+description: "Redis holds every active conversation's state in 4 data structures with sub-ms reads. The full key layout and the MULTI/EXEC pattern that keeps events atomic."
 ShowToc: true
 weight: 4
 seriesTotal: 12
@@ -14,7 +15,13 @@ seriesTotal: 12
 
 {{< series-nav >}}
 
-*Day 4 of 12. [Day 3](/posts/streaming-ai-responses-llm-to-redis/) parked chat text in Redis Streams. Today I put the **state** in Redis too — which agenda is running, which item is active, what data got collected. Same Redis instance, different data structures.*
+*Day 4 of 12. [Day 3](/posts/streaming-ai-responses-llm-to-redis/) parked chat text in Redis Streams. Today: the **state** — same Redis instance, different data structures.*
+
+> **TL;DR**
+> - **4 keys per conversation**: `:stream` (chat, from Day 3), `:state` (mode + agenda + item hash), `:agenda:outputs` (collected data hash), `:agenda:history` (completed items list), plus `:lock` (prevents concurrent processing).
+> - **MULTI/EXEC per event**: every gRPC event fans out into multiple Redis writes that land atomically — no partial state updates.
+> - **State read on every user message**: 2 `HGETALL` calls, ~1ms on LAN. LLM latency dominates; Redis is noise.
+> - **Postgres flush on `endAgenda`**: Redis is the hot working set, Postgres is the durable record. Cron sweeps abandoned state hourly.
 
 ---
 
@@ -257,13 +264,21 @@ All Postgres writes are idempotent — an upsert on `conversation_id + agenda_id
 
 ## Failure Modes I Had to Think About
 
-**Redis crashes mid-conversation.** State is lost for any agenda that hasn't flushed to Postgres yet. Mitigation: [Redis AOF](https://redis.io/docs/latest/operate/oss_and_stack/management/persistence/) (append-only file) with `fsync everysec`. The worst case is losing ~1 second of writes, which usually means one in-flight event. Acceptable tradeoff.
+### Redis crashes mid-conversation
 
-**Backend crashes mid-event.** Without MULTI/EXEC, some writes for one event could land and others not. With it, either all or none land. If "none" is the outcome, the state is one event behind the chat stream — but the next message will re-read state and the AI will recover.
+State is lost for any agenda that hasn't flushed to Postgres yet. Mitigation: [Redis AOF](https://redis.io/docs/latest/operate/oss_and_stack/management/persistence/) (append-only file) with `fsync everysec`. The worst case is losing ~1 second of writes, which usually means one in-flight event. Acceptable tradeoff.
 
-**Postgres flush fails on agenda completion.** Redis still has the state. The cron job retries the flush on every sweep until it succeeds. Idempotent upserts make retries safe.
+### Backend crashes mid-event
 
-**A slow consumer holds the lock.** The 30s TTL auto-releases it. Worst case: a second worker starts processing the same conversation after 30s of the first worker being stuck. In practice, 30s is long enough that the first worker has definitely crashed (LLM calls take 1-5s).
+Without MULTI/EXEC, some writes for one event could land and others not. With it, either all or none land. If "none" is the outcome, the state is one event behind the chat stream — but the next message will re-read state and the AI will recover.
+
+### Postgres flush fails on agenda completion
+
+Redis still has the state. The cron job retries the flush on every sweep until it succeeds. Idempotent upserts make retries safe.
+
+### A slow consumer holds the lock
+
+The 30s TTL auto-releases it. Worst case: a second worker starts processing the same conversation after 30s of the first worker being stuck. In practice, 30s is long enough that the first worker has definitely crashed (LLM calls take 1-5s).
 
 ## Closing
 

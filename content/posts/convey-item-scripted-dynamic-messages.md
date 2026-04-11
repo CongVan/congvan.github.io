@@ -1,12 +1,13 @@
 ---
-title: "The Convey Item: Scripted and AI-Generated Messages"
+title: "Convey Item: Static vs Dynamic AI Messages (85/15 Rule)"
 date: 2026-04-11T12:00:00+07:00
-lastmod: 2026-04-11T12:00:00+07:00
+lastmod: 2026-04-11T16:00:00+07:00
 draft: false
 tags: ["AI Research", "Backend"]
 categories: ["Building a Conversational AI Platform"]
 series: ["Building a Conversational AI Platform"]
-summary: "The simplest agenda item. Convey delivers one message, then ends. Two modes: static (exact text, zero LLM calls) and dynamic (LLM generates from a prompt). Here's when to use each, how placeholder substitution works, and why the boring static mode is the one I use most."
+summary: "The simplest agenda item. Convey delivers one message, then ends. Static vs dynamic, placeholder substitution, and why I use static 85% of the time."
+description: "The simplest agenda item. Convey delivers one message, then ends. Static vs dynamic, placeholder substitution, and why I use static 85% of the time."
 ShowToc: true
 weight: 5
 seriesTotal: 12
@@ -14,7 +15,13 @@ seriesTotal: 12
 
 {{< series-nav >}}
 
-*Day 5 of 12. The [Agenda Engine](/posts/agenda-engine-deterministic-ai-conversations/) is built from four core item types. Today I start the deep dive with the simplest one — Convey. It sends one message, then it's done.*
+*Day 5 of 12. The [Agenda Engine](/posts/agenda-engine-deterministic-ai-conversations/) is built from four core item types. Today: the simplest one — Convey. It sends one message, then it's done.*
+
+> **TL;DR**
+> - **What it does**: Convey speaks one line and ends. No data collected, no follow-up questions.
+> - **Two modes**: static (exact text, zero LLM calls, instant) or dynamic (LLM generates from a prompt).
+> - **The 85/15 rule**: across every production agenda I've built, static covers ~85% of Convey uses. Dynamic is reserved for personalized closings where the message genuinely depends on what just happened.
+> - **Placeholders** (`{{ user_name }}`, `{{ startup_name }}`) make "static" flexible without paying the LLM cost.
 
 ---
 
@@ -26,7 +33,7 @@ You'd think it's too simple to be worth its own post. But it's also the most-use
 
 It comes in two flavors: **static** (exact text) and **dynamic** (LLM-generated from a prompt).
 
-## Static vs Dynamic at a Glance
+## Static or Dynamic Convey: Which Should You Use?
 
 ![Static vs dynamic Convey: two paths to one outgoing message](/images/blog/convey-static-vs-dynamic.svg)
 
