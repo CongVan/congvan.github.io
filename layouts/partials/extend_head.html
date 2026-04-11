@@ -513,6 +513,7 @@ code, pre, .post-content code {
     }
 }
 </style>
+{{- if and (eq .Kind "page") (eq .Section "posts") }}
 <script>
 (function () {
   function initReadingProgress() {
@@ -536,3 +537,4 @@ code, pre, .post-content code {
   }
 })();
 </script>
+{{- end }}
