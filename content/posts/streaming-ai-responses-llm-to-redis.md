@@ -1,6 +1,7 @@
 ---
 title: "Streaming AI Responses: From LLM to Redis Streams"
-date: 2026-04-03T10:00:00+07:00
+date: 2026-04-11T10:00:00+07:00
+lastmod: 2026-04-11T10:00:00+07:00
 draft: false
 tags: ["Backend"]
 categories: ["Building a Conversational AI Platform"]

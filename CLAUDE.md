@@ -25,6 +25,13 @@ Hugo + PaperMod blog at congvan.github.io. GitHub username: CongVan. SSH alias: 
 - **Code-heavy** but using mock/illustrative examples — never production code.
 - Frame as "a platform I built" or "in my experience..."
 
+### Post Dates & Ordering
+- **Always use the real current date** when writing or updating a post. Run `date +"%Y-%m-%dT%H:%M:%S%z"` to get it — never fabricate or reuse a date from the series plan.
+- **`date`** frontmatter = the date the post was originally written (don't change on edits)
+- **`lastmod`** frontmatter = the date of the most recent meaningful update. Update this every time you edit the post's content (typos don't count; content changes do).
+- **Post lists are ordered by `lastmod` descending** via `hugo.toml` config (`frontmatter.lastmod` + `[taxonomies]` settings). The most recently updated post appears first on /posts/ and the homepage.
+- When adding `lastmod` to an old post for the first time, set it to the date you're making the edit.
+
 ### Diagram Style
 - SVG with dark/light mode via CSS `prefers-color-scheme`
 - **Simple colors only:** use 2 tones — primary text + muted. No colored backgrounds, no rainbow boxes.
