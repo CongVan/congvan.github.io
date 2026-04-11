@@ -23,7 +23,7 @@ Every conversation starts in **Q&A mode**. The user asks whatever they want. The
 
 This is the mode most chatbots live in permanently. For us, it's just the starting point. The moment a user says something like "I want to sign up" or "I'd like to apply," the system transitions to [Agenda mode](/posts/agenda-engine-deterministic-ai-conversations/) — and the state machine takes over.
 
-But Q&A mode handles the majority of conversations. Most users come with questions before they're ready to commit to a structured flow. The quality of your Q&A mode determines whether they stick around long enough to trigger an agenda.
+But Q&A mode handles the majority of conversations. Most users come with questions before they're ready to commit to a structured flow. The quality of the Q&A mode determines whether users stick around long enough to trigger an agenda.
 
 ## The RAG Pipeline
 
@@ -265,7 +265,7 @@ The pre-populate step is important. If the user already said "I'm Jane, I'm inte
 
 ### Auto-Start
 
-Some channels skip the confirmation step. On WhatsApp, where every conversation has a clear purpose, you might configure the agenda to auto-start — the user sends their first message and the screening begins immediately, no "Would you like to start?" prompt needed.
+Some channels skip the confirmation step. On WhatsApp, where every conversation has a clear purpose, I configure the agenda to auto-start — the user sends their first message and the screening begins immediately, no "Would you like to start?" prompt needed.
 
 ```python
 class AgendaConfig:
