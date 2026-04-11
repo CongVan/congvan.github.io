@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 360" fill="none">
+  <style>
+    text { font-family: 'Fira Mono', monospace; }
+    @media (prefers-color-scheme: dark) {
+      .box { fill: none; stroke: #555; }
+      .box-bad { fill: none; stroke: #888; stroke-dasharray: 4 3; }
+      .text-primary { fill: #dadadb; }
+      .text-muted { fill: #888; }
+      .text-label { fill: #aaa; }
+      .line { stroke: #888; fill: none; }
+      .line-bad { stroke: #666; fill: none; stroke-dasharray: 4 3; }
+      .head { fill: #888; stroke: none; }
+      .head-bad { fill: #666; stroke: none; }
+      .divider { stroke: #444; }
+    }
+    @media (prefers-color-scheme: light) {
+      .box { fill: none; stroke: #ccc; }
+      .box-bad { fill: none; stroke: #bbb; stroke-dasharray: 4 3; }
+      .text-primary { fill: #1a1a1a; }
+      .text-muted { fill: #999; }
+      .text-label { fill: #555; }
+      .line { stroke: #999; fill: none; }
+      .line-bad { stroke: #bbb; fill: none; stroke-dasharray: 4 3; }
+      .head { fill: #999; stroke: none; }
+      .head-bad { fill: #bbb; stroke: none; }
+      .divider { stroke: #ddd; }
+    }
+  </style>
+
+  <text x="450" y="28" text-anchor="middle" class="text-primary" font-size="13" font-weight="600">Why Redis: Resume After Disconnect</text>
+
+  <!-- Divider -->
+  <line x1="40" y1="180" x2="860" y2="180" class="divider" stroke-width="1" stroke-dasharray="3 3"/>
+
+  <!-- SCENARIO 1: Naive pipe -->
+  <text x="40" y="60" class="text-label" font-size="11" font-weight="600">A · Naive pipe: LLM → Backend → Browser</text>
+
+  <rect class="box" x="40" y="80" width="110" height="50" rx="5" stroke-width="1.3"/>
+  <text x="95" y="103" text-anchor="middle" class="text-primary" font-size="10">LLM</text>
+  <text x="95" y="118" text-anchor="middle" class="text-muted" font-size="9">generating</text>
+
+  <line x1="150" y1="105" x2="180" y2="105" class="line" stroke-width="1.3"/>
+  <polygon points="178,101 186,105 178,109" class="head"/>
+
+  <rect class="box" x="190" y="80" width="110" height="50" rx="5" stroke-width="1.3"/>
+  <text x="245" y="103" text-anchor="middle" class="text-primary" font-size="10">Backend</text>
+  <text x="245" y="118" text-anchor="middle" class="text-muted" font-size="9">proxy</text>
+
+  <line x1="300" y1="105" x2="330" y2="105" class="line" stroke-width="1.3"/>
+  <polygon points="328,101 336,105 328,109" class="head"/>
+
+  <rect class="box-bad" x="340" y="80" width="110" height="50" rx="5" stroke-width="1.3"/>
+  <text x="395" y="103" text-anchor="middle" class="text-muted" font-size="10">Browser</text>
+  <text x="395" y="118" text-anchor="middle" class="text-muted" font-size="9">disconnected</text>
+
+  <!-- Disconnection X mark -->
+  <line x1="300" y1="95" x2="340" y2="115" class="line" stroke-width="2"/>
+  <line x1="340" y1="95" x2="300" y2="115" class="line" stroke-width="2"/>
+
+  <text x="500" y="100" class="text-muted" font-size="10">Browser drops →</text>
+  <text x="500" y="118" class="text-muted" font-size="10">generation wasted</text>
+  <text x="500" y="140" class="text-label" font-size="10">User refreshes.</text>
+  <text x="500" y="156" class="text-label" font-size="10">Backend starts over.</text>
+  <text x="500" y="172" class="text-label" font-size="10">Token cost paid twice.</text>
+
+  <!-- SCENARIO 2: Redis pipe -->
+  <text x="40" y="220" class="text-label" font-size="11" font-weight="600">B · Redis pipe: LLM → Backend → Redis Streams → Browser</text>
+
+  <rect class="box" x="40" y="240" width="100" height="50" rx="5" stroke-width="1.3"/>
+  <text x="90" y="263" text-anchor="middle" class="text-primary" font-size="10">LLM</text>
+  <text x="90" y="278" text-anchor="middle" class="text-muted" font-size="9">generating</text>
+
+  <line x1="140" y1="265" x2="165" y2="265" class="line" stroke-width="1.3"/>
+  <polygon points="163,261 171,265 163,269" class="head"/>
+
+  <rect class="box" x="175" y="240" width="100" height="50" rx="5" stroke-width="1.3"/>
+  <text x="225" y="263" text-anchor="middle" class="text-primary" font-size="10">Backend</text>
+  <text x="225" y="278" text-anchor="middle" class="text-muted" font-size="9">XADD</text>
+
+  <line x1="275" y1="265" x2="300" y2="265" class="line" stroke-width="1.3"/>
+  <polygon points="298,261 306,265 298,269" class="head"/>
+
+  <rect class="box" x="310" y="240" width="130" height="50" rx="5" stroke-width="1.3"/>
+  <text x="375" y="263" text-anchor="middle" class="text-primary" font-size="10">Redis Stream</text>
+  <text x="375" y="278" text-anchor="middle" class="text-muted" font-size="9">persistent log</text>
+
+  <line x1="440" y1="265" x2="465" y2="265" class="line" stroke-width="1.3"/>
+  <polygon points="463,261 471,265 463,269" class="head"/>
+
+  <rect class="box-bad" x="475" y="240" width="100" height="50" rx="5" stroke-width="1.3"/>
+  <text x="525" y="263" text-anchor="middle" class="text-muted" font-size="10">Browser</text>
+  <text x="525" y="278" text-anchor="middle" class="text-muted" font-size="9">dropped</text>
+
+  <!-- Disconnect X -->
+  <line x1="440" y1="255" x2="475" y2="275" class="line" stroke-width="2"/>
+  <line x1="475" y1="255" x2="440" y2="275" class="line" stroke-width="2"/>
+
+  <!-- Reconnect arc -->
+  <path d="M525 240 Q525 205 420 205 Q380 205 380 230" class="line" stroke-width="1.3"/>
+  <polygon points="376,228 380,238 384,228" class="head"/>
+  <text x="450" y="200" text-anchor="middle" class="text-muted" font-size="9">reconnect → XREAD from 0</text>
+
+  <text x="600" y="260" class="text-label" font-size="10">Generation keeps filling</text>
+  <text x="600" y="276" class="text-label" font-size="10">Redis. Browser reconnects,</text>
+  <text x="600" y="292" class="text-label" font-size="10">reads backlog, picks up</text>
+  <text x="600" y="308" class="text-label" font-size="10">where it left off.</text>
+  <text x="600" y="330" class="text-primary" font-size="10" font-weight="600">Zero tokens wasted.</text>
+</svg>

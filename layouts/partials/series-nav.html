@@ -1,0 +1,29 @@
+{{- if .Params.series }}
+{{- $currentWeight := .Params.weight }}
+{{- $currentSeries := index .Params.series 0 }}
+{{- $seriesPages := where site.RegularPages "Params.series" "intersect" .Params.series }}
+{{- $sorted := sort $seriesPages "Params.weight" "asc" }}
+{{- $total := len $sorted }}
+{{- with .Params.seriesTotal }}{{ $total = . }}{{ end }}
+{{- $prev := "" }}
+{{- $next := "" }}
+{{- range $i, $p := $sorted }}
+  {{- if eq $p.Params.weight $currentWeight }}
+    {{- if gt $i 0 }}{{ $prev = index $sorted (sub $i 1) }}{{ end }}
+    {{- if lt $i (sub $total 1) }}{{ $next = index $sorted (add $i 1) }}{{ end }}
+  {{- end }}
+{{- end }}
+{{- $pct := 0 }}
+{{- if gt $total 0 }}{{ $pct = div (mul $currentWeight 100) $total }}{{ end }}
+<aside class="series-nav" aria-label="Series navigation">
+  <div class="series-nav-meta">
+    <span class="series-nav-label">{{ $currentSeries }} · Day {{ $currentWeight }} of {{ $total }}</span>
+    <div class="series-nav-bar" aria-hidden="true"><div class="series-nav-fill" style="width: {{ $pct }}%"></div></div>
+  </div>
+  <nav class="series-nav-links">
+    {{- with $prev }}<a href="{{ .Permalink }}" rel="prev">← Day {{ .Params.weight }}</a>{{ else }}<span class="series-nav-placeholder">← Day {{ sub $currentWeight 1 }}</span>{{ end }}
+    <a href="/posts/agenda-engine-deterministic-ai-conversations/" class="series-nav-overview">Series Overview</a>
+    {{- with $next }}<a href="{{ .Permalink }}" rel="next">Day {{ .Params.weight }} →</a>{{ else }}<span class="series-nav-placeholder">Day {{ add $currentWeight 1 }} →</span>{{ end }}
+  </nav>
+</aside>
+{{- end }}

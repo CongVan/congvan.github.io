@@ -39,7 +39,7 @@ Hugo + PaperMod blog at congvan.github.io. GitHub username: CongVan. SSH alias: 
 - **Communication**: Backend sends ChatPayload via gRPC → AI service streams EventResponse back
 - **Agenda Engine**: State machine with item types (Convey, Gather, Debate, Q&A, Cart, API, Schedule, Select, Quiz, Contact)
 - **Each agenda item**: Python class with lifecycle hooks (on_start, on_user_response, on_tool_call, on_end, should_end)
-- **Real-time**: Firebase Firestore for state sync (NOT Socket.io), API streaming for chat responses
+- **Real-time**: Redis Streams for chat chunks, Redis Hashes for conversation state, Postgres as the durable store (flushed on agenda completion). Frontend consumer (SSE reading from Redis) is a separate future post.
 - **Channels**: Webchat, Widget, WhatsApp, Messenger — unified via adapter pattern
 
 ### Blog Series: "Building a Conversational AI Platform"

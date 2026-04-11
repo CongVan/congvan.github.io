@@ -8,7 +8,10 @@ series: ["Building a Conversational AI Platform"]
 summary: "How I built a hybrid state machine that forces AI through structured conversation workflows — serving 250K+ monthly interactions for enterprise clients without hallucination."
 ShowToc: true
 weight: 1
+seriesTotal: 12
 ---
+
+{{< series-nav >}}
 
 *This is Day 1 of a 12-part series on building a conversational AI platform from scratch. All code examples are original illustrations of the architecture patterns I designed in production.*
 
