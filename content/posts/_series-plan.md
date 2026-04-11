@@ -49,24 +49,25 @@ Architecture patterns from a production platform — 250K+ monthly interactions,
 
 ---
 
-### Day 3 — Streaming AI Responses: From LLM to Browser in Chunks
-- Type: How-to Guide | Tags: Backend, Frontend
-- The two-hop streaming architecture: LLM → AI Service (gRPC) → Backend (HTTP) → Browser
-- gRPC server streaming with protobuf EventResponse messages
-- Backend forwards chunks via HTTP chunked transfer encoding
-- Event types: ChunkEvent (token-by-token), EndMessage, StartAgenda, EndItem, Error
-- Frontend: reading chunked JSON, progressive text rendering
-- Multi-message grouping on messaging channels
+### Day 3 — Streaming AI Responses: From LLM to Redis Streams ✅
+- Type: How-to Guide | Tags: Backend
+- The pipeline: LLM → AI Service (async iter) → Backend (gRPC) → Redis Streams (XADD)
+- Decouples LLM generation from client delivery — drop the connection, keep generating
+- gRPC server streaming with protobuf EventResponse (`oneof` carries many event types)
+- Event catalog: Chunk, Tool, StartAgenda, StartItem, EndItem, EndAgenda, Error
+- Frontend consumer (SSE + Redis XREADGROUP) deferred to a future update post
+- Multi-message grouping on messaging channels handled upstream in the adapter layer
 
 ---
 
-### Day 4 — Real-Time Conversation State with Firebase Firestore
-- Type: Tutorial | Tags: Backend, Frontend
-- Why Firebase over WebSockets: persistent state, offline support, multi-client sync
-- Real-time modules: conversations, agenda progress, collected outputs
-- Admin dashboard: watching live conversations as they happen
-- Separation of concerns: Firebase for state sync, streaming API for chat text
-- Frontend: React hooks subscribing to Firestore snapshots
+### Day 4 — Conversation State in Redis: Hashes, Streams, and a Single Source of Truth
+- Type: How-to Guide | Tags: Backend
+- Same Redis instance as Day 3, different data structures
+- Key layout: `:stream` (chat chunks), `:state` (mode/agenda/item hash), `:agenda:outputs` (collected data hash), `:agenda:history` (list), `:lock` (string + TTL)
+- How gRPC events fan out into Redis writes (atomic via MULTI/EXEC)
+- Reading state on the next user message (HGETALL × 2)
+- Flushing to Postgres on completion
+- Failure modes: AOF persistence, atomic writes, Postgres retry on flush
 
 ---
 
@@ -184,5 +185,4 @@ Day 11 (state machine) links to all item posts (5-8).
 ## Tags
 - AI Research (Days 1, 2, 5, 6, 7, 8, 9, 10)
 - Backend (Days 1, 2, 3, 4, 6, 8, 10, 11, 12)
-- Frontend (Days 3, 4)
 - DevOps (Day 12)

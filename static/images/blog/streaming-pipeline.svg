@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 240" fill="none">
+  <style>
+    text { font-family: 'Fira Mono', monospace; }
+    @media (prefers-color-scheme: dark) {
+      .box { fill: none; stroke: #555; }
+      .box-dashed { fill: none; stroke: #555; stroke-dasharray: 5 4; }
+      .text-primary { fill: #dadadb; }
+      .text-muted { fill: #888; }
+      .line { stroke: #888; fill: none; }
+      .head { fill: #888; stroke: none; }
+    }
+    @media (prefers-color-scheme: light) {
+      .box { fill: none; stroke: #ccc; }
+      .box-dashed { fill: none; stroke: #ccc; stroke-dasharray: 5 4; }
+      .text-primary { fill: #1a1a1a; }
+      .text-muted { fill: #999; }
+      .line { stroke: #999; fill: none; }
+      .head { fill: #999; stroke: none; }
+    }
+  </style>
+
+  <text x="440" y="28" text-anchor="middle" class="text-primary" font-size="13" font-weight="600">The Streaming Pipeline</text>
+
+  <!-- Box 1: LLM -->
+  <rect class="box" x="20" y="75" width="140" height="70" rx="6" stroke-width="1.5"/>
+  <text x="90" y="102" text-anchor="middle" class="text-primary" font-size="12" font-weight="600">LLM</text>
+  <text x="90" y="120" text-anchor="middle" class="text-muted" font-size="10">OpenAI / GPT-4</text>
+
+  <!-- Arrow 1: async iter -->
+  <line x1="160" y1="110" x2="210" y2="110" class="line" stroke-width="1.5"/>
+  <polygon points="208,105 218,110 208,115" class="head"/>
+  <text x="185" y="100" text-anchor="middle" class="text-muted" font-size="9">async</text>
+  <text x="185" y="135" text-anchor="middle" class="text-muted" font-size="9">iterator</text>
+
+  <!-- Box 2: AI Service -->
+  <rect class="box" x="220" y="75" width="150" height="70" rx="6" stroke-width="1.5"/>
+  <text x="295" y="102" text-anchor="middle" class="text-primary" font-size="12" font-weight="600">AI Service</text>
+  <text x="295" y="120" text-anchor="middle" class="text-muted" font-size="10">Python</text>
+
+  <!-- Arrow 2: gRPC -->
+  <line x1="370" y1="110" x2="420" y2="110" class="line" stroke-width="1.5"/>
+  <polygon points="418,105 428,110 418,115" class="head"/>
+  <text x="395" y="100" text-anchor="middle" class="text-muted" font-size="9">gRPC</text>
+  <text x="395" y="135" text-anchor="middle" class="text-muted" font-size="9">stream</text>
+
+  <!-- Box 3: Backend -->
+  <rect class="box" x="430" y="75" width="150" height="70" rx="6" stroke-width="1.5"/>
+  <text x="505" y="102" text-anchor="middle" class="text-primary" font-size="12" font-weight="600">Backend</text>
+  <text x="505" y="120" text-anchor="middle" class="text-muted" font-size="10">Node.js</text>
+
+  <!-- Arrow 3: XADD -->
+  <line x1="580" y1="110" x2="630" y2="110" class="line" stroke-width="1.5"/>
+  <polygon points="628,105 638,110 628,115" class="head"/>
+  <text x="605" y="100" text-anchor="middle" class="text-muted" font-size="9">XADD</text>
+
+  <!-- Box 4: Redis Streams -->
+  <rect class="box" x="640" y="75" width="160" height="70" rx="6" stroke-width="1.5"/>
+  <text x="720" y="102" text-anchor="middle" class="text-primary" font-size="12" font-weight="600">Redis Streams</text>
+  <text x="720" y="120" text-anchor="middle" class="text-muted" font-size="10">append-only log</text>
+
+  <!-- Arrow 4: dashed, future -->
+  <line x1="800" y1="110" x2="832" y2="110" class="line" stroke-width="1" stroke-dasharray="4 3"/>
+  <polygon points="830,106 838,110 830,114" class="head"/>
+
+  <!-- Future consumers -->
+  <rect class="box-dashed" x="725" y="170" width="150" height="45" rx="6" stroke-width="1"/>
+  <text x="800" y="190" text-anchor="middle" class="text-muted" font-size="10">consumers</text>
+  <text x="800" y="205" text-anchor="middle" class="text-muted" font-size="9">(future post)</text>
+
+  <!-- Connector from Redis to consumers -->
+  <line x1="720" y1="145" x2="720" y2="168" class="line" stroke-width="1" stroke-dasharray="3 3"/>
+</svg>

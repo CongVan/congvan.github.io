@@ -8,7 +8,10 @@ series: ["Building a Conversational AI Platform"]
 summary: "Before any structured agenda runs, users chat freely. Here's how we built the default Q&A mode with RAG — document ingestion, vector search, scoped knowledge, and the transition to Agenda mode."
 ShowToc: true
 weight: 2
+seriesTotal: 12
 ---
+
+{{< series-nav >}}
 
 *Day 2 of 12. In [Day 1](/posts/agenda-engine-deterministic-ai-conversations/) we covered the Agenda Engine — the state machine that makes AI conversations deterministic. Today: the other mode — Q&A, where users lead.*
 

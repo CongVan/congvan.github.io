@@ -17,6 +17,97 @@ code, pre, .post-content code {
     font-family: 'Fira Mono', 'Fira Code', monospace;
     font-size: 0.88em;
 }
+
+/* === READING PROGRESS BAR === */
+#reading-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 2px;
+    width: 0;
+    background: var(--primary);
+    z-index: 9999;
+    transition: width 0.08s linear;
+    pointer-events: none;
+}
+
+/* === SERIES NAV === */
+.series-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.85rem 1rem;
+    margin: 0 0 2rem;
+    border: 1px solid var(--tertiary);
+    border-radius: 6px;
+    font-size: 0.82rem;
+}
+.series-nav-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+.series-nav-label {
+    color: var(--secondary);
+    letter-spacing: 0.02em;
+}
+.series-nav-bar {
+    height: 3px;
+    background: var(--tertiary);
+    border-radius: 2px;
+    overflow: hidden;
+}
+.series-nav-fill {
+    height: 100%;
+    background: var(--primary);
+    transition: width 0.3s ease;
+}
+.series-nav-links {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+    padding-top: 0.4rem;
+    border-top: 1px dashed var(--tertiary);
+}
+.series-nav-links a {
+    color: var(--primary);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--secondary);
+    padding-bottom: 1px;
+}
+.series-nav-links a:hover {
+    border-bottom-style: solid;
+}
+.series-nav-links .series-nav-placeholder {
+    color: var(--tertiary);
+    text-decoration: line-through;
+}
+.series-nav-links .series-nav-overview {
+    color: var(--secondary);
+    border-bottom: none;
+}
+.series-nav-links .series-nav-overview:hover {
+    color: var(--primary);
+}
+@media (max-width: 600px) {
+    .series-nav-links {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.35rem;
+    }
+}
+
+/* === REFERENCES SECTION === */
+.post-content .references {
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--tertiary);
+    font-size: 0.88rem;
+}
+.post-content .references ul {
+    margin-top: 0.5rem;
+}
 /* === HERO SECTION === */
 .hero-section {
     padding: 2rem 0 1.5rem;
@@ -422,3 +513,26 @@ code, pre, .post-content code {
     }
 }
 </style>
+<script>
+(function () {
+  function initReadingProgress() {
+    var bar = document.createElement('div');
+    bar.id = 'reading-progress';
+    document.body.appendChild(bar);
+    function update() {
+      var h = document.documentElement;
+      var max = h.scrollHeight - h.clientHeight;
+      var pct = max > 0 ? (h.scrollTop / max) * 100 : 0;
+      bar.style.width = pct + '%';
+    }
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update, { passive: true });
+    update();
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initReadingProgress);
+  } else {
+    initReadingProgress();
+  }
+})();
+</script>
