@@ -23,8 +23,8 @@
 </div>
 {{- end }}
 
-{{/* ===== POST LIST ===== */}}
-{{- $pages := .RegularPages }}
+{{/* ===== POST LIST (ordered by lastmod desc) ===== */}}
+{{- $pages := .RegularPages.ByLastmod.Reverse }}
 <div id="posts-list">
 {{- range $pages }}
 <article class="post-entry" data-tags="{{ range .Params.tags }}{{ . | urlize }} {{ end }}">
