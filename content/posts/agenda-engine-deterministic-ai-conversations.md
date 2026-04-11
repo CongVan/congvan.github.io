@@ -1,11 +1,13 @@
 ---
-title: "The Agenda Engine: Why Pure LLM Prompting Fails for Business Conversations"
+title: "Agenda Engine: Why LLM Prompting Fails in Production"
 date: 2026-04-02T10:00:00+07:00
+lastmod: 2026-04-11T16:00:00+07:00
 draft: false
 tags: ["AI Research", "Backend"]
 categories: ["Building a Conversational AI Platform"]
 series: ["Building a Conversational AI Platform"]
-summary: "How I built a hybrid state machine that forces AI through structured conversation workflows — serving 250K+ monthly interactions for enterprise clients without hallucination."
+summary: "How I built a state machine that forces LLMs through structured business workflows — 250K+ monthly interactions, zero hallucinated API calls."
+description: "How I built a state machine that forces LLMs through structured business workflows — 250K+ monthly interactions, zero hallucinated API calls."
 ShowToc: true
 weight: 1
 seriesTotal: 12
@@ -13,7 +15,12 @@ seriesTotal: 12
 
 {{< series-nav >}}
 
-*This is Day 1 of a 12-part series on building a conversational AI platform from scratch. All code examples are original illustrations of the architecture patterns I designed in production.*
+*Day 1 of 12. All code is original mock illustrating the patterns I designed in production.*
+
+> **TL;DR**
+> - **Problem**: LLMs skip steps, hallucinate API calls, and get derailed by creative users. "It usually works" is not acceptable at 250K+ monthly interactions.
+> - **Solution**: A hybrid state machine — AI generates language, code enforces structure. Two modes (Q&A and Agenda), four core item types (Convey, Gather, Debate, Q&A).
+> - **Pattern**: Every agenda runs Collect → Verify → Action. The code guarantees every step runs in order; the AI only decides *how* to phrase each step.
 
 ---
 

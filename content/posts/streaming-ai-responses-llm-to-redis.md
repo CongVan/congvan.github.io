@@ -1,12 +1,13 @@
 ---
-title: "Streaming AI Responses: From LLM to Redis Streams"
+title: "Streaming AI Responses: The Resilient LLM-to-Redis Pipeline"
 date: 2026-04-11T10:00:00+07:00
-lastmod: 2026-04-11T10:00:00+07:00
+lastmod: 2026-04-11T16:00:00+07:00
 draft: false
-tags: ["Backend"]
+tags: ["Backend", "AI Research", "DevOps"]
 categories: ["Building a Conversational AI Platform"]
 series: ["Building a Conversational AI Platform"]
-summary: "How a single AI response travels from OpenAI through a Python AI service, into a Node.js backend via gRPC, and ends up in Redis Streams — decoupling LLM generation from client delivery so a dropped connection never kills a response mid-stream."
+summary: "How AI responses travel from OpenAI to Redis Streams via gRPC, so a dropped client connection never kills a response mid-generation."
+description: "How AI responses travel from OpenAI to Redis Streams via gRPC, so a dropped client connection never kills a response mid-generation."
 ShowToc: true
 weight: 3
 seriesTotal: 12
@@ -14,7 +15,13 @@ seriesTotal: 12
 
 {{< series-nav >}}
 
-*Day 3 of 12. In [Day 1](/posts/agenda-engine-deterministic-ai-conversations/) I built the state machine that makes AI conversations deterministic. In [Day 2](/posts/qa-mode-rag-knowledge-chat/) I built the Q&A mode that answers from a knowledge base. Today I build the **pipe** — how text moves from the LLM to somewhere a client can read.*
+*Day 3 of 12. [Day 1](/posts/agenda-engine-deterministic-ai-conversations/) built the state machine. [Day 2](/posts/qa-mode-rag-knowledge-chat/) built the Q&A mode. Today: the **pipe** — how text moves from the LLM to somewhere a client can read.*
+
+> **TL;DR**
+> - **Three hops**: LLM → AI Service (OpenAI async iterator) → Backend (gRPC server streaming) → Redis Streams (XADD).
+> - **Why Redis**: decouples generation from delivery. Dropped client connections no longer kill the response — generation keeps filling Redis, the client reconnects and catches up.
+> - **One ordered event log**: protobuf `oneof` carries chunks, tool calls, agenda lifecycle events, and errors through the same stream.
+> - **Frontend consumer deferred** to a follow-up post; Day 3 stops at "chunks are safely in Redis."
 
 ---
 
@@ -239,7 +246,7 @@ This post stops at "chunks are safely in Redis." Everything from Redis onward �
 
 The plan for the consumer side: a `GET /api/chat/stream/:conversationId` endpoint that opens a [consumer group](https://redis.io/docs/latest/commands/xreadgroup/) on the stream, reads unseen entries with `XREADGROUP`, and writes each one to the browser as an SSE `data:` line. Upstash's [resumable LLM streams article](https://upstash.com/blog/resumable-llm-streams) is the reference implementation I'm borrowing from. I'll publish it as an update when the frontend side lands.
 
-## Closing
+## The Takeaway: One Pipe, Zero Wasted Tokens
 
 This is the plumbing for chat **text**. One pipe, four hops, zero wasted tokens on dropped connections.
 

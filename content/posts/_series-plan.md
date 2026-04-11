@@ -60,7 +60,7 @@ Architecture patterns from a production platform — 250K+ monthly interactions,
 
 ---
 
-### Day 4 — Conversation State in Redis: Hashes, Streams, and a Single Source of Truth
+### Day 4 — Conversation State in Redis: Hashes, Streams, and a Single Source of Truth ✅
 - Type: How-to Guide | Tags: Backend
 - Same Redis instance as Day 3, different data structures
 - Key layout: `:stream` (chat chunks), `:state` (mode/agenda/item hash), `:agenda:outputs` (collected data hash), `:agenda:history` (list), `:lock` (string + TTL)
@@ -71,7 +71,7 @@ Architecture patterns from a production platform — 250K+ monthly interactions,
 
 ---
 
-### Day 5 — The Convey Item: Delivering Scripted and AI-Generated Messages
+### Day 5 — The Convey Item: Scripted and AI-Generated Messages ✅
 - Type: Tutorial | Tags: AI Research, Backend
 - Two modes: static (exact text) vs dynamic (AI generates from prompt + context)
 - When to use which: legal disclaimers (static) vs personalized closings (dynamic)
@@ -81,7 +81,7 @@ Architecture patterns from a production platform — 250K+ monthly interactions,
 
 ---
 
-### Day 6 — The Gather Item: Collecting Structured Data Through Conversation
+### Day 6 — The Gather Item: Collecting Structured Data Through Conversation ✅
 - Type: Tutorial | Tags: AI Research, Backend
 - Asked vs Inferred outputs: explicit questions vs AI extraction from context
 - Field state machine: PENDING → PROVIDED / INVALID / STALE / PRE_FILLED
@@ -92,7 +92,7 @@ Architecture patterns from a production platform — 250K+ monthly interactions,
 
 ---
 
-### Day 7 — The Debate Item: AI-Generated Follow-Up Questions for Deep Conversations
+### Day 7 — The Debate Item: AI-Generated Follow-Up Questions for Open-Ended Exploration ✅
 - Type: Tutorial | Tags: AI Research
 - How Debate differs from Gather: open-ended exploration vs specific field collection
 - Starting question: static or dynamically generated from context
