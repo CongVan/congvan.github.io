@@ -8,7 +8,7 @@ summary: "What I learned taking an AI conversational platform from first commit 
 ShowToc: true
 ---
 
-Over the past three years, I built an AI-powered SaaS platform from the ground up at Persona Studios. The platform automates structured business conversations -- VC screening, customer support, booking -- for enterprise clients including Antler VC.
+Over the past three years, I built an AI-powered SaaS platform from the ground up as the founding engineer. The platform automates structured business conversations -- VC screening, customer support, booking -- for 20+ enterprise clients, including a venture capital firm.
 
 Here are the key lessons from that journey.
 

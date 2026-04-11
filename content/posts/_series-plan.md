@@ -112,13 +112,13 @@ Architecture patterns from a production platform — 250K+ monthly interactions,
 
 ---
 
-### Day 9 — Multi-Level Prompt Architecture: Persona → Agenda → Item ✅
+### Day 9 — Multi-Level Prompt Architecture: Assistant → Agenda → Item ✅
 - Type: Tutorial | Tags: AI Research
-- Level 1 — Persona: role, personality, communication style, knowledge context
+- Level 1 — Assistant: role, personality, communication style, knowledge context
 - Level 2 — Agenda: purpose, trigger context, pre-population prompts
 - Level 3 — Item: type-specific (Convey prompt, Gather extraction logic, Debate instructions)
 - Dynamic placeholders: outputs from earlier items substitute into later prompts
-- Same item, two different personas — totally different conversation tone
+- Same item, two different assistant configs — totally different conversation tone
 
 ---
 
@@ -149,7 +149,7 @@ Architecture patterns from a production platform — 250K+ monthly interactions,
 - Widget: embedded script, iframe, postMessage to parent
 - WhatsApp: webhook + 24h window, multi-message debounce + grouping
 - Messenger: webhook + Send API, quick replies, message tags
-- Channel-aware persona rendering (more emoji on WhatsApp, more formal on email)
+- Channel-aware assistant rendering (more emoji on WhatsApp, more formal on email)
 - Cross-channel conversation continuity via phone-based linking
 - Live chat takeover hooks
 - Series wrap-up linking all 11 prior posts

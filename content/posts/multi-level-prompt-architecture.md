@@ -1,13 +1,13 @@
 ---
-title: "Multi-Level Prompt Architecture: Persona, Agenda, Item"
+title: "Multi-Level Prompt Architecture: Assistant, Agenda, Item"
 date: 2026-04-11T19:10:00+07:00
-lastmod: 2026-04-11T19:10:00+07:00
+lastmod: 2026-04-11T20:30:00+07:00
 draft: false
 tags: ["AI Research"]
 categories: ["Building a Conversational AI Platform"]
 series: ["Building a Conversational AI Platform"]
-summary: "The same Gather item produces wildly different conversations depending on the persona wrapping it. Here's the 3-level prompt stack — Persona, Agenda, Item — and why keeping them separate is the difference between 'reusable' and 'spaghetti'."
-description: "Three prompt levels that stack: Persona (who the AI is), Agenda (what it's doing), Item (the current task). Same code, two personas, totally different conversations."
+summary: "The same Gather item produces wildly different conversations depending on which AI assistant config wraps it. The 3-level prompt stack — Assistant, Agenda, Item — and why keeping them separate is the difference between 'reusable' and 'spaghetti'."
+description: "Three prompt levels that stack: Assistant (who the AI is), Agenda (what it's doing), Item (the current task). Same code, two assistants, totally different conversations."
 ShowToc: true
 weight: 9
 seriesTotal: 12
@@ -15,13 +15,13 @@ seriesTotal: 12
 
 {{< series-nav >}}
 
-*Day 9 of 12. The last four posts covered the four item types ([Convey](/posts/convey-item-scripted-dynamic-messages/), [Gather](/posts/gather-item-structured-data-collection/), [Debate](/posts/debate-item-ai-follow-up-questions/), [Q&A](/posts/qa-item-knowledge-base-mid-agenda/)). Today: the prompt architecture that makes the same item feel totally different depending on who's running it.*
+*Day 9 of 12. The last four posts covered the four item types ([Convey](/posts/convey-item-scripted-dynamic-messages/), [Gather](/posts/gather-item-structured-data-collection/), [Debate](/posts/debate-item-ai-follow-up-questions/), [Q&A](/posts/qa-item-knowledge-base-mid-agenda/)). Today: the prompt architecture that makes the same item feel totally different depending on which AI assistant is running it.*
 
 > **TL;DR**
-> - **Three levels**: Persona (who the AI is), Agenda (what it's trying to accomplish), Item (the specific task right now). Each level contributes part of the system prompt.
+> - **Three levels**: Assistant (who the AI is), Agenda (what it's trying to accomplish), Item (the specific task right now). Each level contributes part of the system prompt.
 > - **Why separate**: the same Gather item can collect the same 4 fields in two completely different tones — casual startup versus formal enterprise — just by swapping Level 1. Zero code changes.
-> - **Placeholders flow downward**: Item prompts can reference outputs from earlier items, Agenda prompts can reference the triggering phrase, Persona prompts can reference the channel.
-> - **Compound effect**: each level adds specificity without overriding the one above. Persona sets the voice, Agenda sets the goal, Item sets the micro-task.
+> - **Placeholders flow downward**: Item prompts can reference outputs from earlier items, Agenda prompts can reference the triggering phrase, Assistant prompts can reference the channel.
+> - **Compound effect**: each level adds specificity without overriding the one above. The Assistant level sets the voice, Agenda sets the goal, Item sets the micro-task.
 
 ---
 
@@ -38,17 +38,17 @@ one emoji per message. Don't use corporate jargon...
 
 This fell apart fast. Three reasons:
 
-1. **Duplication**. The "You are Kevin" part had to appear in every single item's prompt for every agenda. If I wanted to change the persona's communication style, I had to edit 40 different prompts.
-2. **Conflicting instructions**. When an item-level prompt said "be formal and precise" but the persona was "casual Kevin", the LLM would flip back and forth mid-sentence.
-3. **Placeholder collision**. Item prompts wanted to reference `{{ previous_outputs }}`, agenda prompts wanted `{{ trigger_phrase }}`, and persona prompts wanted `{{ channel }}`. Untangling whose placeholder was whose became a nightmare.
+1. **Duplication**. The "You are Kevin" part had to appear in every single item's prompt for every agenda. If I wanted to change the assistant's communication style, I had to edit 40 different prompts.
+2. **Conflicting instructions**. When an item-level prompt said "be formal and precise" but the assistant config was "casual Kevin", the LLM would flip back and forth mid-sentence.
+3. **Placeholder collision**. Item prompts wanted to reference `{{ previous_outputs }}`, agenda prompts wanted `{{ trigger_phrase }}`, and assistant prompts wanted `{{ channel }}`. Untangling whose placeholder was whose became a nightmare.
 
 The fix was splitting the prompt into three layers, each owned by a different config level.
 
 ## The Three Levels
 
-![Three levels of prompt: Persona wraps everything, Agenda narrows scope, Item does the task](/images/blog/prompt-levels.svg)
+![Three levels of prompt: Assistant wraps everything, Agenda narrows scope, Item does the task](/images/blog/prompt-levels.svg)
 
-**Level 1 — Persona**: who the AI *is*. Role, communication style, personality, persistent rules. Applied to every message in every conversation, regardless of what agenda is running.
+**Level 1 — Assistant**: who the AI *is*. Role, communication style, personality, persistent rules. Applied to every message in every conversation, regardless of what agenda is running.
 
 **Level 2 — Agenda**: what the AI is *trying to accomplish* right now. Purpose of this specific flow, context from the trigger that started it. Applied only while the agenda is running.
 
@@ -57,19 +57,19 @@ The fix was splitting the prompt into three layers, each owned by a different co
 The final system prompt the LLM sees is just these three concatenated, in order:
 
 ```python
-def build_system_prompt(persona, agenda, item, outputs):
+def build_system_prompt(assistant, agenda, item, outputs):
     parts = [
-        persona.render(),          # Level 1
+        assistant.render(),        # Level 1
         agenda.render(outputs),    # Level 2
         item.render(outputs),      # Level 3
     ]
     return '\n\n---\n\n'.join(parts)
 ```
 
-## Level 1: The Persona Config
+## Level 1: The Assistant Config
 
 ```yaml
-# personas/kevin.yaml
+# assistants/kevin.yaml
 name: Kevin
 role: "A casual VC scout at a pre-seed fund"
 communication_style:
@@ -127,11 +127,11 @@ agenda_prompt: |
   Keep the tone warm. This is a founder's first impression of our fund.
 ```
 
-The agenda prompt is added after the persona block:
+The agenda prompt is added after the assistant block:
 
 ```
 You are Kevin, a casual VC scout...
-[persona rules]
+[assistant rules]
 
 ---
 
@@ -140,7 +140,7 @@ Your job is to understand their business well enough...
 [agenda focus areas]
 ```
 
-Notice what the agenda prompt *doesn't* do: it doesn't restate the persona style. It doesn't say "be casual" again. The persona already handles voice — the agenda handles *purpose*.
+Notice what the agenda prompt *doesn't* do: it doesn't restate the assistant's voice. It doesn't say "be casual" again. The assistant level already handles voice — the agenda handles *purpose*.
 
 ## Level 3: The Item Prompt
 
@@ -169,7 +169,7 @@ items:
 This renders into the third block:
 
 ```
-[persona + agenda from above]
+[assistant + agenda from above]
 
 ---
 
@@ -188,11 +188,11 @@ If the founder mentioned Acme Analytics earlier, reference it by name when you c
 
 The `{{ startup_name }}` placeholder gets substituted at runtime from the outputs hash in [Redis](/posts/conversation-state-in-redis/). If a prior Gather item collected `startup_name = "Acme Analytics"`, it flows in here.
 
-## Same Item, Two Personas — Real Output Comparison
+## Same Item, Two Assistants — Real Output Comparison
 
-Here's where the architecture pays for itself. The exact same `market_deep_dive` Debate item, wrapped in two different personas, produces these two conversations:
+Here's where the architecture pays for itself. The exact same `market_deep_dive` Debate item, wrapped in two different assistant configs, produces these two conversations:
 
-### Persona 1: Kevin (casual VC scout)
+### Assistant 1: Kevin (casual VC scout)
 
 ```
 🤖 Kevin: Hey, tell me about the market you're going after for Acme.
@@ -211,10 +211,10 @@ Here's where the architecture pays for itself. The exact same `market_deep_dive`
          Shopify's been around for 15 years.
 ```
 
-### Persona 2: Elizabeth (formal enterprise advisor)
+### Assistant 2: Elizabeth (formal enterprise advisor)
 
 ```yaml
-# personas/elizabeth.yaml
+# assistants/elizabeth.yaml
 name: Elizabeth
 role: "A senior strategic advisor at a top-tier management consultancy"
 communication_style:
@@ -225,7 +225,7 @@ communication_style:
   emoji: none
 ```
 
-Same Debate item, same market_deep_dive prompt, different persona:
+Same Debate item, same market_deep_dive prompt, different assistant:
 
 ```
 🤖 Elizabeth: Good afternoon. Could you describe the market 
@@ -246,7 +246,7 @@ Same Debate item, same market_deep_dive prompt, different persona:
               realistically addressable in the first 24 months?
 ```
 
-Same probing goals. Same follow-up pattern. Totally different tone. I didn't write two versions of the Debate item — I wrote one, and the persona wrapper handled the rest.
+Same probing goals. Same follow-up pattern. Totally different tone. I didn't write two versions of the Debate item — I wrote one, and the assistant wrapper handled the rest.
 
 ## Placeholders Flow Downward
 
@@ -269,9 +269,9 @@ Placeholders also work for:
 - `{{ agenda_trigger }}` — the exact phrase the user said to start the agenda
 - `{{ timezone }}` — for scheduling-related items
 
-## Channel-Aware Persona Rules
+## Channel-Aware Assistant Rules
 
-The persona prompt can also adjust based on the channel the user is on. Here's a real example:
+The assistant prompt can also adjust based on the channel the user is on. Here's a real example:
 
 ```yaml
 communication_style:
@@ -289,7 +289,7 @@ communication_style:
       emoji: none
 ```
 
-At render time, the persona picks the style variant matching the current channel:
+At render time, the assistant picks the style variant matching the current channel:
 
 ```python
 def render(self, channel: str) -> str:
@@ -299,15 +299,15 @@ def render(self, channel: str) -> str:
     return self._format_prompt(style)
 ```
 
-Kevin on WhatsApp is curter and uses more emoji than Kevin on email. Same persona, channel-appropriate delivery. This matters a lot when the same agent is deployed to multiple channels (covered in [Day 12](/posts/four-channels-one-engine/)).
+Kevin on WhatsApp is curter and uses more emoji than Kevin on email. Same assistant config, channel-appropriate delivery. This matters a lot when the same agent is deployed to multiple channels (covered in [Day 12](/posts/four-channels-one-engine/)).
 
 ## What NOT to Put in Each Level
 
 A few rules I had to learn the hard way:
 
-**Don't put voice rules in the Agenda prompt.** "Keep the tone warm" belongs in the persona, not the agenda. The persona is reusable across agendas; the agenda is a one-time definition. If you write voice rules at the agenda level, the same 10 agendas will each have slightly different voice rules and you'll spend time debugging why.
+**Don't put voice rules in the Agenda prompt.** "Keep the tone warm" belongs in the assistant config, not the agenda. The assistant config is reusable across agendas; the agenda is a one-time definition. If you write voice rules at the agenda level, the same 10 agendas will each have slightly different voice rules and you'll spend time debugging why.
 
-**Don't put task instructions in the Persona prompt.** "Ask the founder about their market" belongs in the Debate item, not the persona. Otherwise, every single message Kevin sends will include instructions about asking about markets, even during Q&A mode where he's just answering questions about the fund.
+**Don't put task instructions in the Assistant prompt.** "Ask the founder about their market" belongs in the Debate item, not the assistant. Otherwise, every single message Kevin sends will include instructions about asking about markets, even during Q&A mode where he's just answering questions about the fund.
 
 **Don't put output definitions in the prompt at all.** Outputs are declarative config (see [Day 6](/posts/gather-item-structured-data-collection/) for asked vs inferred). The prompt describes the *task*; the system handles the *extraction*. Mixing them means the LLM might narrate "Now I'm extracting the funding_stage field" in the user-facing message.
 
@@ -316,7 +316,7 @@ A few rules I had to learn the hard way:
 Each level adds specificity without overriding the one above. The final system prompt looks something like this at runtime:
 
 ```
-[PERSONA]
+[ASSISTANT]
 You are Kevin, a casual VC scout at a pre-seed fund.
 Low formality, dry humor, first-person, concise, minimal emoji.
 Never promise investment decisions or quote check sizes.
@@ -345,13 +345,13 @@ The LLM reads all three and produces one message. Every level contributes: Kevin
 
 Multi-level prompts are longer than single-level prompts, but not by much. In practice:
 
-- Level 1 (persona): ~150-300 tokens
+- Level 1 (assistant): ~150-300 tokens
 - Level 2 (agenda): ~100-200 tokens
 - Level 3 (item): ~100-300 tokens
 
 Total system prompt: ~350-800 tokens per request. Compared to the full message history and RAG context that follows, that's a rounding error.
 
-The real savings is in engineering time. Swapping a persona across 20 agendas takes a 1-line config change, not a 40-file rewrite.
+The real savings is in engineering time. Swapping an assistant config across 20 agendas takes a 1-line config change, not a 40-file rewrite.
 
 ## What's Next
 
@@ -364,7 +364,7 @@ The prompt architecture decides *what* the AI says. The next question is *which 
 - [Day 1 — The Agenda Engine](/posts/agenda-engine-deterministic-ai-conversations/) — the state machine that runs items in order
 - [Day 4 — Conversation State in Redis](/posts/conversation-state-in-redis/) — where output placeholders come from
 - [Day 5 — The Convey Item](/posts/convey-item-scripted-dynamic-messages/) — the simplest user of item-level prompts
-- [Day 12 — Four Channels](/posts/four-channels-one-engine/) — where channel-aware persona rules kick in
+- [Day 12 — Four Channels](/posts/four-channels-one-engine/) — where channel-aware assistant rules kick in
 
 ### References
 

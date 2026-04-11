@@ -142,7 +142,7 @@ class QAItem(BaseAgendaItem):
         )
 
         answer = await llm.chat(
-            system_prompt=self.persona.system_prompt(),
+            system_prompt=self.assistant.system_prompt(),
             user_prompt=message,
             context_docs=docs,
         )

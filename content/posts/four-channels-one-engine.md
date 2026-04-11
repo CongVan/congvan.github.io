@@ -21,7 +21,7 @@ seriesTotal: 12
 > - **One engine, four channels**: webchat (full page), widget (embedded script), WhatsApp Business, Facebook Messenger.
 > - **Adapter pattern**: each channel has a thin adapter that normalizes its quirks into a unified message format. The Agenda Engine never sees channel-specific code.
 > - **Real channel quirks**: WhatsApp users send 3 messages in 500ms (debounce + group). Messenger has a 24-hour window for unsolicited messages. Widgets need to handle iframe parent-window communication. Webchat needs to handle file uploads.
-> - **Channel-aware persona**: the same persona (from [Day 9](/posts/multi-level-prompt-architecture/)) renders slightly differently per channel — more emoji on WhatsApp, more formality on email, and so on.
+> - **Channel-aware assistant**: the same AI assistant config (from [Day 9](/posts/multi-level-prompt-architecture/)) renders slightly differently per channel — more emoji on WhatsApp, more formality on email, and so on.
 > - **Series wrap-up**: this post ties together all 11 prior posts and shows the full architecture diagram.
 
 ---
@@ -35,7 +35,7 @@ Picture a fictional vacation rental company. They want their AI booking concierg
 - **WhatsApp** for guests outside the US who prefer messaging apps
 - **Messenger** for Facebook page visitors
 
-Same AI persona ("Maya, a friendly booking concierge"). Same agendas (room search, reservation, payment). Same knowledge base (properties, amenities, cancellation policies). But four wildly different transport layers, each with its own constraints.
+Same AI assistant ("Maya, a friendly booking concierge"). Same agendas (room search, reservation, payment). Same knowledge base (properties, amenities, cancellation policies). But four wildly different transport layers, each with its own constraints.
 
 If I built four separate engines, I'd have 4× the bugs, 4× the deployments, and 4× the prompt drift. Instead, I built **one engine and four adapters**.
 
@@ -292,9 +292,9 @@ class MessengerAdapter(ChannelAdapter):
 
 The Gather item collecting `destination` had its `quick_replies` field set to common destinations. The Messenger adapter rendered them as native buttons. The webchat adapter would have ignored that field (webchat doesn't have quick replies as native UI). Same item, channel-appropriate rendering.
 
-## How the Channel Affects the Persona
+## How the Channel Affects the Assistant
 
-The [persona](/posts/multi-level-prompt-architecture/) from Day 9 had `channel_adjustments`. Here's how Maya's prompt actually changes per channel:
+The [assistant config](/posts/multi-level-prompt-architecture/) from Day 9 had `channel_adjustments`. Here's how Maya's prompt actually changes per channel:
 
 **Webchat** (default formality, moderate detail):
 > Hi! I'd love to help you find a place. Tell me where you're going and when, and I'll narrow it down. If you have any must-haves — sea view, kitchen, walkability — mention those too and I can filter for them.
@@ -316,7 +316,7 @@ The [persona](/posts/multi-level-prompt-architecture/) from Day 9 had `channel_a
 > Best,
 > Maya
 
-Same persona config, four different opening lines. The agenda items (Convey, Gather, etc.) don't change — only the persona's `channel_adjustments` block adjusts how the LLM is instructed to format output.
+Same assistant config, four different opening lines. The agenda items (Convey, Gather, etc.) don't change — only the assistant's `channel_adjustments` block adjusts how the LLM is instructed to format output.
 
 ## Cross-Channel Conversation Continuity
 
@@ -379,7 +379,7 @@ This is the last post in the series. Here's what got built across 12 days:
 - Day 8: [Q&A Item](/posts/qa-item-knowledge-base-mid-agenda/) — pause and resume mid-flow
 
 **Cross-cutting glue** (Days 9-11):
-- Day 9: [Multi-Level Prompt Architecture](/posts/multi-level-prompt-architecture/) — Persona → Agenda → Item
+- Day 9: [Multi-Level Prompt Architecture](/posts/multi-level-prompt-architecture/) — Assistant → Agenda → Item
 - Day 10: [Conditional Logic](/posts/conditional-logic-branching-agenda-items/) — JSON ops and AI eval
 - Day 11: [State Machine & Events](/posts/state-machine-event-driven-agenda-transitions/) — 8 events that drive everything
 
@@ -402,7 +402,7 @@ Thanks for following along.
 
 - [Day 1 — The Agenda Engine](/posts/agenda-engine-deterministic-ai-conversations/) — the foundation
 - [Day 4 — Conversation State in Redis](/posts/conversation-state-in-redis/) — where channel-bridged state lives
-- [Day 9 — Multi-Level Prompt Architecture](/posts/multi-level-prompt-architecture/) — how channel-aware persona rendering works
+- [Day 9 — Multi-Level Prompt Architecture](/posts/multi-level-prompt-architecture/) — how channel-aware assistant rendering works
 - [Day 11 — State Machine & Events](/posts/state-machine-event-driven-agenda-transitions/) — the event log every channel writes to
 
 ### References

@@ -118,8 +118,8 @@ class ConveyItem(BaseAgendaItem):
     async def generate_and_emit(self):
         # Build the system prompt from the item config
         system_prompt = self.prompt_builder.compose(
-            role=self.persona.role,
-            style=self.persona.communication_style,
+            role=self.assistant.role,
+            style=self.assistant.communication_style,
             task=self.message,  # the prompt, e.g. "Write a personalized closing..."
             outputs=self.state.agenda.outputs,  # prior collected data
         )
@@ -225,7 +225,7 @@ Next up: [Day 6 — The Gather Item](/posts/gather-item-structured-data-collecti
 - [Day 1 — The Agenda Engine](/posts/agenda-engine-deterministic-ai-conversations/) — how items fit into the state machine
 - [Day 3 — Streaming AI Responses](/posts/streaming-ai-responses-llm-to-redis/) — how dynamic Convey chunks reach Redis
 - [Day 4 — Conversation State in Redis](/posts/conversation-state-in-redis/) — where placeholder values come from
-- [Day 9 — Multi-Level Prompt Architecture](/posts/multi-level-prompt-architecture/) *(coming later)* — how the persona's style flows into dynamic Convey prompts
+- [Day 9 — Multi-Level Prompt Architecture](/posts/multi-level-prompt-architecture/) *(coming later)* — how the assistant's style flows into dynamic Convey prompts
 
 ### References
 
