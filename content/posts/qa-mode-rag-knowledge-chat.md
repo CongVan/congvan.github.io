@@ -1,11 +1,13 @@
 ---
-title: "How Q&A Mode Works: Building a Knowledge-Powered Chat with RAG"
+title: "Q&A Mode: Knowledge-Powered Chat with RAG Across 40+ Languages"
 date: 2026-04-02T11:00:00+07:00
+lastmod: 2026-04-11T16:00:00+07:00
 draft: false
 tags: ["AI Research", "Backend"]
 categories: ["Building a Conversational AI Platform"]
 series: ["Building a Conversational AI Platform"]
-summary: "Before any structured agenda runs, users chat freely. Here's how we built the default Q&A mode with RAG — document ingestion, vector search, scoped knowledge, and the transition to Agenda mode."
+summary: "The default chat mode: RAG pipeline, scoped knowledge, language-boosted retrieval across 40+ languages, and the trigger that hands off to Agenda mode."
+description: "The default chat mode: RAG pipeline, scoped knowledge, language-boosted retrieval across 40+ languages, and the trigger that hands off to Agenda mode."
 ShowToc: true
 weight: 2
 seriesTotal: 12
@@ -13,7 +15,13 @@ seriesTotal: 12
 
 {{< series-nav >}}
 
-*Day 2 of 12. In [Day 1](/posts/agenda-engine-deterministic-ai-conversations/) we covered the Agenda Engine — the state machine that makes AI conversations deterministic. Today: the other mode — Q&A, where users lead.*
+*Day 2 of 12. [Day 1](/posts/agenda-engine-deterministic-ai-conversations/) covered the [Agenda Engine](/posts/agenda-engine-deterministic-ai-conversations/) — the state machine that makes AI conversations deterministic. Today: the other mode — Q&A, where users lead.*
+
+> **TL;DR**
+> - **Two-phase RAG pipeline**: async ingestion (upload → chunk → embed → Pinecone) and per-message retrieval (query rewrite → vector search → language scoring → LLM with context).
+> - **Knowledge scoping**: every document is tagged `all / channel / agenda` — the same AI agent has different knowledge on WhatsApp vs the signup flow.
+> - **Gap detection**: a second LLM check flags questions the knowledge base couldn't answer, so admins know exactly which docs to add next.
+> - **Trigger → Agenda**: when a user says "I want to sign up", tool calling detects the trigger, pre-populates known fields, and hands off to structured agenda mode.
 
 ---
 
@@ -83,13 +91,13 @@ async def ingest_document(source: DocumentSource):
     )
 ```
 
-A few things worth noting:
+Three things matter here:
 
 **Async processing.** Ingestion runs on a background queue, not in the request path. A PDF with 100 pages takes time to chunk and embed — users shouldn't wait for it.
 
 **Chunk overlap.** We use 50-token overlap between chunks. Without this, a question that spans two paragraphs might not match either chunk well enough.
 
-**Metadata.** Every chunk carries its agent ID, document ID, source type, detected language, and scope. This metadata is critical for retrieval filtering.
+**Metadata.** Every chunk carries its agent ID, document ID, source type, detected language, and scope. Retrieval filters on this metadata — without it, scoping breaks.
 
 ### Supported Sources
 
@@ -105,7 +113,7 @@ The platform ingests from anything an enterprise team actually uses:
 | CSV / Excel | Row-based or column-based chunking |
 | Plain text | Direct chunking |
 
-**Auto-sync** is important for enterprise. When a support team updates a Google Doc with new pricing, the knowledge base should reflect it without manual re-upload. We poll live sources on a configurable schedule and re-embed changed content.
+**Auto-sync**. Enterprise teams update pricing docs weekly. The knowledge base has to reflect those changes without a manual re-upload cycle. I poll live sources on a configurable schedule and re-embed changed content.
 
 ### Phase 2: Retrieval
 
@@ -261,7 +269,7 @@ When the LLM detects a match with high confidence, the system transitions:
 2. **Pre-populate** — Scan the last 20 Q&A messages for data the agenda needs (name, email, etc.)
 3. **Start** — Begin executing agenda items in sequence
 
-The pre-populate step is important. If the user already said "I'm Jane, I'm interested in the senior role" during Q&A, the Gather item shouldn't ask for their name again. The system scans recent history and auto-fills known outputs.
+Pre-populate is the piece that actually saves the user from repeating themselves. If the user already said "I'm Jane, I'm interested in the senior role" during Q&A, the Gather item shouldn't ask for their name again. The system scans recent history and auto-fills known outputs.
 
 ### Auto-Start
 

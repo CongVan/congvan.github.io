@@ -60,7 +60,7 @@ Architecture patterns from a production platform — 250K+ monthly interactions,
 
 ---
 
-### Day 4 — Conversation State in Redis: Hashes, Streams, and a Single Source of Truth
+### Day 4 — Conversation State in Redis: Hashes, Streams, and a Single Source of Truth ✅
 - Type: How-to Guide | Tags: Backend
 - Same Redis instance as Day 3, different data structures
 - Key layout: `:stream` (chat chunks), `:state` (mode/agenda/item hash), `:agenda:outputs` (collected data hash), `:agenda:history` (list), `:lock` (string + TTL)
@@ -71,7 +71,7 @@ Architecture patterns from a production platform — 250K+ monthly interactions,
 
 ---
 
-### Day 5 — The Convey Item: Delivering Scripted and AI-Generated Messages
+### Day 5 — The Convey Item: Scripted and AI-Generated Messages ✅
 - Type: Tutorial | Tags: AI Research, Backend
 - Two modes: static (exact text) vs dynamic (AI generates from prompt + context)
 - When to use which: legal disclaimers (static) vs personalized closings (dynamic)
@@ -81,7 +81,7 @@ Architecture patterns from a production platform — 250K+ monthly interactions,
 
 ---
 
-### Day 6 — The Gather Item: Collecting Structured Data Through Conversation
+### Day 6 — The Gather Item: Collecting Structured Data Through Conversation ✅
 - Type: Tutorial | Tags: AI Research, Backend
 - Asked vs Inferred outputs: explicit questions vs AI extraction from context
 - Field state machine: PENDING → PROVIDED / INVALID / STALE / PRE_FILLED
@@ -92,7 +92,7 @@ Architecture patterns from a production platform — 250K+ monthly interactions,
 
 ---
 
-### Day 7 — The Debate Item: AI-Generated Follow-Up Questions for Deep Conversations
+### Day 7 — The Debate Item: AI-Generated Follow-Up Questions for Open-Ended Exploration ✅
 - Type: Tutorial | Tags: AI Research
 - How Debate differs from Gather: open-ended exploration vs specific field collection
 - Starting question: static or dynamically generated from context
@@ -102,7 +102,7 @@ Architecture patterns from a production platform — 250K+ monthly interactions,
 
 ---
 
-### Day 8 — The Q&A Item: Knowledge Base Access Mid-Agenda
+### Day 8 — The Q&A Item: Knowledge Base Access Mid-Agenda ✅
 - Type: How-to Guide | Tags: AI Research, Backend
 - Problem: users have questions during structured flows ("What's your return policy?")
 - Solution: Q&A item pauses agenda, answers from knowledge base, then resumes
@@ -112,46 +112,47 @@ Architecture patterns from a production platform — 250K+ monthly interactions,
 
 ---
 
-### Day 9 — Multi-Level Prompt Architecture: Agent → Agenda → Item
+### Day 9 — Multi-Level Prompt Architecture: Assistant → Agenda → Item ✅
 - Type: Tutorial | Tags: AI Research
-- Level 1 — Agent: role, personality, communication style, knowledge context
+- Level 1 — Assistant: role, personality, communication style, knowledge context
 - Level 2 — Agenda: purpose, trigger context, pre-population prompts
 - Level 3 — Item: type-specific (Convey prompt, Gather extraction logic, Debate instructions)
 - Dynamic placeholders: outputs from earlier items substitute into later prompts
-- The compound effect: each level adds specificity
+- Same item, two different assistant configs — totally different conversation tone
 
 ---
 
-### Day 10 — Conditional Logic: Deciding Which Agenda Items Run
+### Day 10 — Conditional Logic: Branching Agenda Items by AI or JSON Rules ✅
 - Type: How-to Guide | Tags: AI Research, Backend
-- Two modes: AI-evaluated ("only if user has 5+ years experience") vs JSON operators ($eq, $ne, $gt, $and, $or)
+- Two modes: AI-evaluated natural language vs JSON operators ($eq, $ne, $gt, $and, $or, $ct, $fz)
 - When to use which: AI for subjective, JSON for deterministic
 - Item skip flow: condition false → skip → evaluate next
-- Branching example: senior path vs junior path based on gathered data
+- Real example: backend engineer screening with senior vs junior branches
 - Nested conditions for complex enterprise workflows
 
 ---
 
-### Day 11 — State Machine: Event-Driven Agenda Transitions
+### Day 11 — State Machine: 8 Events That Drive Every Conversation ✅
 - Type: How-to Guide | Tags: Backend
-- Redis for fast state access during conversations
-- PostgreSQL for durable agenda records
-- 8 events: select, start, start-item, update, end-item, end, resume, exit
-- Status tracking: completed, timed out, exited, paused by live chat
-- Timeout handling via delayed queue jobs
-- Data flow between items via placeholder substitution
+- 8 events: select-agenda, start-agenda, start-item, update-item, end-item, end-agenda, exit-agenda, resume-agenda
+- Plus the special timeout event from BullMQ delayed jobs
+- Each event tied to a real user scenario with full payload
+- Why events instead of direct mutations (replayability + observability + decoupling)
+- Full event sequence walkthrough for a Pro signup conversation
 
 ---
 
-### Day 12 — Four Channels, One Engine: Webchat, Widget, WhatsApp, and Messenger
-- Type: Tutorial | Tags: Backend, DevOps
+### Day 12 — Four Channels, One Engine: Webchat, Widget, WhatsApp, Messenger ✅
+- Type: Tutorial / Pillar | Tags: Backend, DevOps
 - Adapter pattern: all channels normalize to unified message format
-- Webchat: full-page, pre-collection form, custom domains
-- Widget: embedded on any website, floating icon
-- WhatsApp: webhook ingestion, multi-message grouping, 48-hour window
-- Messenger: Facebook Pages DM integration
-- Channel-specific behaviors: pre-collection skips Gather fields, language switching
-- Cross-channel continuity: same user continues across channels
+- Webchat: SSE + REST, file uploads, long sessions
+- Widget: embedded script, iframe, postMessage to parent
+- WhatsApp: webhook + 24h window, multi-message debounce + grouping
+- Messenger: webhook + Send API, quick replies, message tags
+- Channel-aware assistant rendering (more emoji on WhatsApp, more formal on email)
+- Cross-channel conversation continuity via phone-based linking
+- Live chat takeover hooks
+- Series wrap-up linking all 11 prior posts
 
 ---
 

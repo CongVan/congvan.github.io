@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 360" fill="none">
+  <style>
+    text { font-family: 'Fira Mono', monospace; }
+    @media (prefers-color-scheme: dark) {
+      .box { fill: none; stroke: #555; }
+      .box-thick { fill: none; stroke: #888; }
+      .text-primary { fill: #dadadb; }
+      .text-muted { fill: #888; }
+      .text-label { fill: #aaa; }
+      .line { stroke: #888; fill: none; }
+      .head { fill: #888; stroke: none; }
+    }
+    @media (prefers-color-scheme: light) {
+      .box { fill: none; stroke: #ccc; }
+      .box-thick { fill: none; stroke: #999; }
+      .text-primary { fill: #1a1a1a; }
+      .text-muted { fill: #999; }
+      .text-label { fill: #555; }
+      .line { stroke: #999; fill: none; }
+      .head { fill: #999; stroke: none; }
+    }
+  </style>
+
+  <text x="440" y="30" text-anchor="middle" class="text-primary" font-size="13" font-weight="600">Debate Item Loop</text>
+
+  <!-- Start -->
+  <rect class="box" x="330" y="60" width="220" height="50" rx="5" stroke-width="1.3"/>
+  <text x="440" y="83" text-anchor="middle" class="text-primary" font-size="11" font-weight="600">Starting question</text>
+  <text x="440" y="99" text-anchor="middle" class="text-muted" font-size="9">static or AI-generated</text>
+
+  <line x1="440" y1="110" x2="440" y2="140" class="line" stroke-width="1.3"/>
+  <polygon points="436,137 440,147 444,137" class="head"/>
+
+  <!-- User response -->
+  <rect class="box" x="330" y="150" width="220" height="50" rx="5" stroke-width="1.3"/>
+  <text x="440" y="173" text-anchor="middle" class="text-primary" font-size="11" font-weight="600">User response</text>
+  <text x="440" y="189" text-anchor="middle" class="text-muted" font-size="9">free-form text</text>
+
+  <line x1="440" y1="200" x2="440" y2="230" class="line" stroke-width="1.3"/>
+  <polygon points="436,227 440,237 444,227" class="head"/>
+
+  <!-- Generate follow-up -->
+  <rect class="box" x="300" y="240" width="280" height="50" rx="5" stroke-width="1.3"/>
+  <text x="440" y="263" text-anchor="middle" class="text-primary" font-size="11" font-weight="600">Generate follow-up question</text>
+  <text x="440" y="279" text-anchor="middle" class="text-muted" font-size="9">LLM reads history + prompt template</text>
+
+  <!-- Loop back arrow -->
+  <path d="M580 265 Q720 265 720 175 Q720 160 560 160" class="line" stroke-width="1.3"/>
+  <polygon points="562,156 552,160 562,164" class="head"/>
+  <text x="735" y="220" text-anchor="start" class="text-muted" font-size="9">loop</text>
+  <text x="735" y="236" text-anchor="start" class="text-muted" font-size="9">N times</text>
+
+  <!-- Exit path -->
+  <line x1="300" y1="265" x2="180" y2="265" class="line" stroke-width="1.3" stroke-dasharray="3 3"/>
+  <polygon points="183,261 175,265 183,269" class="head"/>
+  <text x="220" y="256" text-anchor="middle" class="text-muted" font-size="9">after N rounds</text>
+
+  <rect class="box-thick" x="30" y="240" width="140" height="50" rx="5" stroke-width="1.5"/>
+  <text x="100" y="263" text-anchor="middle" class="text-primary" font-size="10" font-weight="600">Summarize</text>
+  <text x="100" y="279" text-anchor="middle" class="text-muted" font-size="9">extract outputs</text>
+
+  <line x1="100" y1="290" x2="100" y2="320" class="line" stroke-width="1.3"/>
+  <polygon points="96,317 100,327 104,317" class="head"/>
+
+  <rect class="box" x="40" y="330" width="120" height="25" rx="12" stroke-width="1.3"/>
+  <text x="100" y="347" text-anchor="middle" class="text-primary" font-size="10" font-weight="600">End item</text>
+
+  <text x="440" y="345" text-anchor="middle" class="text-muted" font-size="9">N typically 3-5 rounds — configurable per Debate item</text>
+</svg>

@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 340" fill="none">
+  <style>
+    text { font-family: 'Fira Mono', monospace; }
+    @media (prefers-color-scheme: dark) {
+      .box { fill: none; stroke: #555; }
+      .box-multi { fill: none; stroke: #777; }
+      .text-primary { fill: #dadadb; }
+      .text-muted { fill: #888; }
+      .text-label { fill: #aaa; }
+      .line { stroke: #888; fill: none; }
+      .head { fill: #888; stroke: none; }
+    }
+    @media (prefers-color-scheme: light) {
+      .box { fill: none; stroke: #ccc; }
+      .box-multi { fill: none; stroke: #888; }
+      .text-primary { fill: #1a1a1a; }
+      .text-muted { fill: #999; }
+      .text-label { fill: #555; }
+      .line { stroke: #999; fill: none; }
+      .head { fill: #999; stroke: none; }
+    }
+  </style>
+
+  <text x="440" y="28" text-anchor="middle" class="text-primary" font-size="13" font-weight="600">One Event → Multiple Redis Writes (atomic via MULTI/EXEC)</text>
+
+  <!-- Source event -->
+  <rect class="box" x="330" y="55" width="220" height="55" rx="5" stroke-width="1.5"/>
+  <text x="440" y="80" text-anchor="middle" class="text-primary" font-size="11" font-weight="600">EndAgendaItemEvent</text>
+  <text x="440" y="96" text-anchor="middle" class="text-muted" font-size="9">from gRPC stream</text>
+
+  <!-- Arrow down to MULTI -->
+  <line x1="440" y1="110" x2="440" y2="135" class="line" stroke-width="1.5"/>
+  <polygon points="435,132 440,140 445,132" class="head"/>
+
+  <!-- MULTI block -->
+  <rect class="box-multi" x="120" y="145" width="640" height="155" rx="6" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <text x="140" y="168" class="text-label" font-size="10" font-weight="600">MULTI</text>
+  <text x="740" y="168" text-anchor="end" class="text-label" font-size="10" font-weight="600">EXEC</text>
+
+  <!-- 4 fan-out operations -->
+  <rect class="box" x="140" y="180" width="140" height="100" rx="5" stroke-width="1.3"/>
+  <text x="210" y="202" text-anchor="middle" class="text-primary" font-size="10" font-weight="600">XADD</text>
+  <text x="210" y="220" text-anchor="middle" class="text-muted" font-size="9">:stream</text>
+  <text x="210" y="240" text-anchor="middle" class="text-muted" font-size="9">append event</text>
+  <text x="210" y="256" text-anchor="middle" class="text-muted" font-size="9">to chat log</text>
+  <text x="210" y="275" text-anchor="middle" class="text-label" font-size="9">(Day 3)</text>
+
+  <rect class="box" x="295" y="180" width="140" height="100" rx="5" stroke-width="1.3"/>
+  <text x="365" y="202" text-anchor="middle" class="text-primary" font-size="10" font-weight="600">HSET</text>
+  <text x="365" y="220" text-anchor="middle" class="text-muted" font-size="9">:state</text>
+  <text x="365" y="240" text-anchor="middle" class="text-muted" font-size="9">currentItemId =</text>
+  <text x="365" y="256" text-anchor="middle" class="text-muted" font-size="9">nextItemId</text>
+
+  <rect class="box" x="450" y="180" width="140" height="100" rx="5" stroke-width="1.3"/>
+  <text x="520" y="202" text-anchor="middle" class="text-primary" font-size="10" font-weight="600">HSET</text>
+  <text x="520" y="220" text-anchor="middle" class="text-muted" font-size="9">:agenda:outputs</text>
+  <text x="520" y="240" text-anchor="middle" class="text-muted" font-size="9">save collected</text>
+  <text x="520" y="256" text-anchor="middle" class="text-muted" font-size="9">fields</text>
+
+  <rect class="box" x="605" y="180" width="140" height="100" rx="5" stroke-width="1.3"/>
+  <text x="675" y="202" text-anchor="middle" class="text-primary" font-size="10" font-weight="600">RPUSH</text>
+  <text x="675" y="220" text-anchor="middle" class="text-muted" font-size="9">:agenda:history</text>
+  <text x="675" y="240" text-anchor="middle" class="text-muted" font-size="9">append</text>
+  <text x="675" y="256" text-anchor="middle" class="text-muted" font-size="9">{itemId, at}</text>
+
+  <!-- Footer -->
+  <text x="440" y="323" text-anchor="middle" class="text-muted" font-size="10">All 4 writes commit atomically — either everything lands or nothing does</text>
+</svg>

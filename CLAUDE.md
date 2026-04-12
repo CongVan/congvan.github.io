@@ -56,6 +56,45 @@ Hugo + PaperMod blog at congvan.github.io. GitHub username: CongVan. SSH alias: 
 - Each post links back to Day 1 (flagship)
 - Tags: AI Research, Backend, Frontend, DevOps
 
+### Blog Workflow — Always Use the `claude-blog` Plugin Skills
+When writing or updating any blog post, use the full `claude-blog` plugin pipeline instead of just writing markdown. Pick the skills that match the job. Never ship a post that wasn't touched by at least `blog-write` (or `blog-rewrite`) **plus** `blog-seo-check` **plus** `blog-analyze`.
+
+**For a new post** (`/blog write <topic>`):
+1. `claude-blog:blog-strategy` — if the post is part of a new series or cluster, confirm positioning first
+2. `claude-blog:blog-outline` — SERP-informed outline with section word counts and gap analysis
+3. `claude-blog:blog-write` — write the full draft using the chosen template
+4. `claude-blog:blog-chart` — generate any inline SVG charts for chart-worthy data (already fits our monochrome diagram style)
+5. `claude-blog:blog-image` — generate hero/section images via Gemini when available
+6. `claude-blog:blog-schema` — add JSON-LD `BlogPosting` / `Person` / `FAQPage` schema
+7. `claude-blog:blog-seo-check` — post-writing SEO validation (title, meta, headings, links, OG tags)
+8. `claude-blog:blog-factcheck` — verify every statistic against its cited source
+9. `claude-blog:blog-geo` — AI citation readiness audit (passage citability, entity clarity)
+10. `claude-blog:blog-analyze` — final 100-point quality score. Must hit ≥80 before publishing.
+
+**For updating an existing post** (`/blog rewrite <file>` or content edits):
+1. `claude-blog:blog-rewrite` — optimize the existing post (adds answer-first formatting, sourced stats, anti-AI-pattern detection)
+2. `claude-blog:blog-seo-check` — re-validate SEO
+3. `claude-blog:blog-factcheck` — re-verify stats
+4. `claude-blog:blog-analyze` — re-score. Score must not drop.
+5. Bump the `lastmod` frontmatter to today's date (run `date +"%Y-%m-%dT%H:%M:%S%z"`)
+
+**For site-wide maintenance**:
+- `claude-blog:blog-audit` — periodically (monthly) run a full-site health assessment
+- `claude-blog:blog-cannibalization` — detect keyword overlap across posts
+- `claude-blog:blog-calendar` — refresh the editorial calendar
+
+**For distribution**:
+- `claude-blog:blog-repurpose` — adapt the post for Twitter/X threads, LinkedIn articles, YouTube scripts when publishing
+- `claude-blog:blog-audio` — optional audio narration for longer posts
+- `claude-blog:blog-google` — track post performance via GSC/GA4 post-publication
+
+**Exceptions that don't need the full pipeline:**
+- Frontmatter-only changes (e.g. fixing `lastmod`, adding tags)
+- Pure diagram or layout fixes where post content is unchanged
+- Typo fixes (still bump `lastmod` if changed)
+
+Even for these small edits, run `claude-blog:blog-analyze` on the final output as a sanity check if the changes touch more than one paragraph.
+
 ## Technical
 
 ### Commands
