@@ -30,7 +30,7 @@ seriesTotal: 12
 Early on I tried to bake everything into one giant system prompt per item. Something like:
 
 ```
-You are Kevin, a casual VC scout at a pre-seed fund. You're conducting
+You are VC Screener, a casual VC scout at a pre-seed fund. You're conducting
 a founder screening interview. Right now you need to ask about their
 market size and probe if the answer is vague. Use first names. Include
 one emoji per message. Don't use corporate jargon...
@@ -38,8 +38,8 @@ one emoji per message. Don't use corporate jargon...
 
 This fell apart fast. Three reasons:
 
-1. **Duplication**. The "You are Kevin" part had to appear in every single item's prompt for every agenda. If I wanted to change the assistant's communication style, I had to edit 40 different prompts.
-2. **Conflicting instructions**. When an item-level prompt said "be formal and precise" but the assistant config was "casual Kevin", the LLM would flip back and forth mid-sentence.
+1. **Duplication**. The "You are VC Screener" part had to appear in every single item's prompt for every agenda. If I wanted to change the assistant's communication style, I had to edit 40 different prompts.
+2. **Conflicting instructions**. When an item-level prompt said "be formal and precise" but the assistant config was "casual VC Screener", the LLM would flip back and forth mid-sentence.
 3. **Placeholder collision**. Item prompts wanted to reference `{{ previous_outputs }}`, agenda prompts wanted `{{ trigger_phrase }}`, and assistant prompts wanted `{{ channel }}`. Untangling whose placeholder was whose became a nightmare.
 
 The fix was splitting the prompt into three layers, each owned by a different config level.
@@ -70,7 +70,7 @@ def build_system_prompt(assistant, agenda, item, outputs):
 
 ```yaml
 # assistants/kevin.yaml
-name: Kevin
+name: VC Screener
 role: "A casual VC scout at a pre-seed fund"
 communication_style:
   formality: low         # "hey" not "hello"
@@ -88,7 +88,7 @@ rules:
 This config renders into a prompt block:
 
 ```
-You are Kevin, a casual VC scout at a pre-seed fund.
+You are VC Screener, a casual VC scout at a pre-seed fund.
 
 Communication style:
 - Low formality — use "hey" not "hello", contractions are fine
@@ -104,7 +104,7 @@ Rules:
 - If you don't know something, say so — don't guess
 ```
 
-This block prepends every single message. Whether the agent is answering a question in Q&A mode, asking for a name in a Gather item, or probing about market size in a Debate item, Kevin sounds like Kevin throughout.
+This block prepends every single message. Whether the agent is answering a question in Q&A mode, asking for a name in a Gather item, or probing about market size in a Debate item, the AI sounds consistent throughout.
 
 ## Level 2: The Agenda Prompt
 
@@ -130,7 +130,7 @@ agenda_prompt: |
 The agenda prompt is added after the assistant block:
 
 ```
-You are Kevin, a casual VC scout...
+You are VC Screener, a casual VC scout...
 [assistant rules]
 
 ---
@@ -192,30 +192,30 @@ The `{{ startup_name }}` placeholder gets substituted at runtime from the output
 
 Here's where the architecture pays for itself. The exact same `market_deep_dive` Debate item, wrapped in two different assistant configs, produces these two conversations:
 
-### Assistant 1: Kevin (casual VC scout)
+### Assistant 1: VC Screener (casual VC scout)
 
 ```
-🤖 Kevin: Hey, tell me about the market you're going after for Acme.
+🤖 VC Screener: Hey, tell me about the market you're going after for Acme.
 👤 Founder: We're helping e-commerce shops track returns. The 
             market is massive — every retailer deals with returns.
-🤖 Kevin: "Every retailer" is the answer I hear most and it never 
+🤖 VC Screener: "Every retailer" is the answer I hear most and it never 
          tells me anything. Pick one type of shop and walk me 
          through their specific pain. What's the smallest slice 
          you could win completely?
 👤 Founder: Shopify merchants doing $1-5M GMV, mostly apparel 
             and accessories. Returns kill their margins because 
             free-shipping-both-ways is table stakes now.
-🤖 Kevin: Okay, that's better. How big is that segment in the US?
+🤖 VC Screener: Okay, that's better. How big is that segment in the US?
 👤 Founder: Around 20,000 stores.
-🤖 Kevin: And what's changed recently that makes now the time? 
+🤖 VC Screener: And what's changed recently that makes now the time? 
          Shopify's been around for 15 years.
 ```
 
-### Assistant 2: Elizabeth (formal enterprise advisor)
+### Assistant 2: Advisor (formal enterprise advisor)
 
 ```yaml
 # assistants/elizabeth.yaml
-name: Elizabeth
+name: Advisor
 role: "A senior strategic advisor at a top-tier management consultancy"
 communication_style:
   formality: high           # "Good afternoon" not "hey"
@@ -228,11 +228,11 @@ communication_style:
 Same Debate item, same market_deep_dive prompt, different assistant:
 
 ```
-🤖 Elizabeth: Good afternoon. Could you describe the market 
+🤖 Advisor: Good afternoon. Could you describe the market 
              opportunity Acme Analytics is addressing?
 👤 Founder: We're helping e-commerce shops track returns. The 
             market is massive — every retailer deals with returns.
-🤖 Elizabeth: I'd like to understand the specificity here. "Every 
+🤖 Advisor: I'd like to understand the specificity here. "Every 
               retailer" is a broad framing. Could you articulate 
               your initial beachhead segment — perhaps by vertical,
               revenue band, or geography — and explain what makes 
@@ -240,7 +240,7 @@ Same Debate item, same market_deep_dive prompt, different assistant:
 👤 Founder: Shopify merchants doing $1-5M GMV, mostly apparel 
             and accessories. Returns kill their margins because 
             free-shipping-both-ways is table stakes now.
-🤖 Elizabeth: That's a helpful clarification. Approximately how 
+🤖 Advisor: That's a helpful clarification. Approximately how 
               many merchants fall within that GMV band in the 
               US market, and what share do you see as 
               realistically addressable in the first 24 months?
@@ -299,7 +299,7 @@ def render(self, channel: str) -> str:
     return self._format_prompt(style)
 ```
 
-Kevin on WhatsApp is curter and uses more emoji than Kevin on email. Same assistant config, channel-appropriate delivery. This matters a lot when the same agent is deployed to multiple channels (covered in [Day 12](/posts/four-channels-one-engine/)).
+The same assistant on WhatsApp is curter and uses more emoji than on email. Same config, channel-appropriate delivery. This matters a lot when the same agent is deployed to multiple channels (covered in [Day 12](/posts/four-channels-one-engine/)).
 
 ## What NOT to Put in Each Level
 
@@ -307,7 +307,7 @@ A few rules I had to learn the hard way:
 
 **Don't put voice rules in the Agenda prompt.** "Keep the tone warm" belongs in the assistant config, not the agenda. The assistant config is reusable across agendas; the agenda is a one-time definition. If you write voice rules at the agenda level, the same 10 agendas will each have slightly different voice rules and you'll spend time debugging why.
 
-**Don't put task instructions in the Assistant prompt.** "Ask the founder about their market" belongs in the Debate item, not the assistant. Otherwise, every single message Kevin sends will include instructions about asking about markets, even during Q&A mode where he's just answering questions about the fund.
+**Don't put task instructions in the Assistant prompt.** "Ask the founder about their market" belongs in the Debate item, not the assistant. Otherwise, every single message the assistant sends will include instructions about asking about markets, even during Q&A mode where it's just answering questions about the fund.
 
 **Don't put output definitions in the prompt at all.** Outputs are declarative config (see [Day 6](/posts/gather-item-structured-data-collection/) for asked vs inferred). The prompt describes the *task*; the system handles the *extraction*. Mixing them means the LLM might narrate "Now I'm extracting the funding_stage field" in the user-facing message.
 
@@ -317,7 +317,7 @@ Each level adds specificity without overriding the one above. The final system p
 
 ```
 [ASSISTANT]
-You are Kevin, a casual VC scout at a pre-seed fund.
+You are VC Screener, a casual VC scout at a pre-seed fund.
 Low formality, dry humor, first-person, concise, minimal emoji.
 Never promise investment decisions or quote check sizes.
 
@@ -339,7 +339,7 @@ market", "no competition".
 Reference the startup by name: Acme Analytics.
 ```
 
-The LLM reads all three and produces one message. Every level contributes: Kevin's voice comes from Level 1, the screening focus comes from Level 2, the market-specific probing comes from Level 3. Nothing is duplicated. Nothing conflicts.
+The LLM reads all three and produces one message. Every level contributes: VC Screener's voice comes from Level 1, the screening focus comes from Level 2, the market-specific probing comes from Level 3. Nothing is duplicated. Nothing conflicts.
 
 ## Cost Implications
 

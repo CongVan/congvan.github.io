@@ -35,7 +35,7 @@ Picture a fictional vacation rental company. They want their AI booking concierg
 - **WhatsApp** for guests outside the US who prefer messaging apps
 - **Messenger** for Facebook page visitors
 
-Same AI assistant ("Maya, a friendly booking concierge"). Same agendas (room search, reservation, payment). Same knowledge base (properties, amenities, cancellation policies). But four wildly different transport layers, each with its own constraints.
+Same AI assistant — a friendly booking concierge. Same agendas (room search, reservation, payment). Same knowledge base (properties, amenities, cancellation policies). But four wildly different transport layers, each with its own constraints.
 
 If I built four separate engines, I'd have 4× the bugs, 4× the deployments, and 4× the prompt drift. Instead, I built **one engine and four adapters**.
 
@@ -110,15 +110,15 @@ class WebchatAdapter(ChannelAdapter):
 
 ```
 [user opens chat panel on book.rentalco.example.com]
-🤖 Maya: Hi! Looking for a place to stay? Tell me where and when.
+🤖 Booking AI: Hi! Looking for a place to stay? Tell me where and when.
 👤 user: Lisbon, mid-June, 2 adults
-🤖 Maya: Got it — Lisbon, mid-June, 2 guests. How many nights?
+🤖 Booking AI: Got it — Lisbon, mid-June, 2 guests. How many nights?
 👤 user: 5 nights
-🤖 Maya: I have a few options. Want me to walk you through them, 
+🤖 Booking AI: I have a few options. Want me to walk you through them, 
         or do you have specific must-haves like a kitchen or sea view?
 ```
 
-Standard webchat. The user has time and visual context, so Maya's responses can be longer and more conversational.
+Standard webchat. The user has time and visual context, so Booking AI's responses can be longer and more conversational.
 
 ## Channel 2: Widget
 
@@ -146,15 +146,15 @@ The widget JS injects an iframe pointing at `chat.rentalco.example.com/embed?age
 ```
 [user reading "Top 10 Lisbon neighborhoods" on travelblog.example.com]
 [after 30 seconds, the widget opens with a soft chime]
-🤖 Maya: Hi! See anything you like in this Lisbon guide? I can help 
+🤖 Booking AI: Hi! See anything you like in this Lisbon guide? I can help 
         you find a place to stay — just tell me the dates.
 👤 user: Yeah I love Alfama. June 12-17, 2 people
-🤖 Maya: Alfama is gorgeous. I have 6 properties available those 
+🤖 Booking AI: Alfama is gorgeous. I have 6 properties available those 
         dates. Want them ranked by price, by reviews, or by walking 
         distance to the metro?
 ```
 
-Same engine. The widget context lets Maya open with a contextual hook ("See anything you like in this Lisbon guide?") because the parent page passed its URL when initializing the widget. That URL is in `metadata.parent_url` — Maya's first Convey item references it via a placeholder.
+Same engine. The widget context lets Booking AI open with a contextual hook ("See anything you like in this Lisbon guide?") because the parent page passed its URL when initializing the widget. That URL is in `metadata.parent_url` — Booking AI's first Convey item references it via a placeholder.
 
 ## Channel 3: WhatsApp Business
 
@@ -225,14 +225,14 @@ class WhatsAppAdapter(ChannelAdapter):
 👤 user: Lisbon, June 12-17, 2 people
 [1 second debounce window passes]
 [adapter combines all 3 into one message: "hi\nI'm looking for a place\nLisbon, June 12-17, 2 people"]
-🤖 Maya: Hi! I'd love to help. Lisbon, June 12-17, 2 guests — 
+🤖 Booking AI: Hi! I'd love to help. Lisbon, June 12-17, 2 guests — 
         let me check availability... 6 properties match. 
         Want them ranked by price or location?
 ```
 
-Without the debounce, Maya would have replied to "hi" with a generic greeting, then to "I'm looking for a place" asking what kind, then to the third message with the actual search. Three messages where one would do — and a frustrating experience for a user who already typed everything they needed.
+Without the debounce, Booking AI would have replied to "hi" with a generic greeting, then to "I'm looking for a place" asking what kind, then to the third message with the actual search. Three messages where one would do — and a frustrating experience for a user who already typed everything they needed.
 
-The 24-hour window also matters. After Maya's reply, the user has 24 hours to respond freely. If they ghost for 25 hours, Maya can only reach back out via a pre-approved template ("Hi! Just checking in on your Lisbon search — want to pick up where we left off?"). Outside the window, the engine is read-only for that conversation.
+The 24-hour window also matters. After Booking AI's reply, the user has 24 hours to respond freely. If they ghost for 25 hours, Booking AI can only reach back out via a pre-approved template ("Hi! Just checking in on your Lisbon search — want to pick up where we left off?"). Outside the window, the engine is read-only for that conversation.
 
 ## Channel 4: Facebook Messenger
 
@@ -280,13 +280,13 @@ class MessengerAdapter(ChannelAdapter):
 
 ```
 👤 user: I want to book a place
-🤖 Maya: Sure! Where are you headed?
+🤖 Booking AI: Sure! Where are you headed?
         [Quick replies: Lisbon | Barcelona | Rome | Other]
 👤 user: [taps "Lisbon"]
-🤖 Maya: Lisbon it is. When?
+🤖 Booking AI: Lisbon it is. When?
         [Quick replies: This weekend | Next month | Custom dates]
 👤 user: [taps "Custom dates"]
-🤖 Maya: Got it. What dates?
+🤖 Booking AI: Got it. What dates?
 👤 user: June 12-17
 ```
 
@@ -294,7 +294,7 @@ The Gather item collecting `destination` had its `quick_replies` field set to co
 
 ## How the Channel Affects the Assistant
 
-The [assistant config](/posts/multi-level-prompt-architecture/) from Day 9 had `channel_adjustments`. Here's how Maya's prompt actually changes per channel:
+The [assistant config](/posts/multi-level-prompt-architecture/) from Day 9 had `channel_adjustments`. Here's how Booking AI's prompt actually changes per channel:
 
 **Webchat** (default formality, moderate detail):
 > Hi! I'd love to help you find a place. Tell me where you're going and when, and I'll narrow it down. If you have any must-haves — sea view, kitchen, walkability — mention those too and I can filter for them.
@@ -306,7 +306,7 @@ The [assistant config](/posts/multi-level-prompt-architecture/) from Day 9 had `
 > Where are you headed?
 > [Lisbon] [Barcelona] [Rome] [Other]
 
-**Email** (formal, thorough — if Maya is configured for an email channel later):
+**Email** (formal, thorough — if Booking AI is configured for an email channel later):
 > Hello,
 >
 > Thanks for reaching out about your trip. I'd be happy to help you find a place to stay. Could you share your destination, travel dates, number of guests, and any specific requirements (kitchen, ocean view, walking distance to landmarks, etc.)?
@@ -314,7 +314,7 @@ The [assistant config](/posts/multi-level-prompt-architecture/) from Day 9 had `
 > I'll put together a few options based on what you tell me.
 >
 > Best,
-> Maya
+> Booking AI
 
 Same assistant config, four different opening lines. The agenda items (Convey, Gather, etc.) don't change — only the assistant's `channel_adjustments` block adjusts how the LLM is instructed to format output.
 
@@ -342,7 +342,7 @@ async def lookup_user_across_channels(channel_user_id: str, channel: str) -> str
 
 When a user starts a webchat conversation and provides their phone number, the system stores `phone → unified_id`. Later, if the same person sends a WhatsApp message from that phone, the lookup matches. The new WhatsApp message lands in the same `unified_id` and can read all prior outputs from `:agenda:outputs` ([Day 4](/posts/conversation-state-in-redis/)).
 
-Real example: a guest starts a booking on the website ("Lisbon, June 12-17, 2 people, $200/night max"), gets distracted, leaves. Two days later they message the same brand on WhatsApp asking "did I have something pending?" — and Maya, with access to the prior conversation's outputs, can pick up exactly where it left off without making them re-enter anything.
+Real example: a guest starts a booking on the website ("Lisbon, June 12-17, 2 people, $200/night max"), gets distracted, leaves. Two days later they message the same brand on WhatsApp asking "did I have something pending?" — and Booking AI, with access to the prior conversation's outputs, can pick up exactly where it left off without making them re-enter anything.
 
 ## Live Chat Takeover
 
